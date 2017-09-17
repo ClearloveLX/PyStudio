@@ -1,0 +1,55 @@
+@using PyStudio.Model.Models
+@model IEnumerable<InfoArea>
+
+@{
+    ViewData["Title"] = "地区列表";
+}
+<div class="page-title">
+    <div class="breadcrumb-env">
+        <ol class="breadcrumb bc-1">
+            <li>
+                <a href="dashboard-1.html"><i class="fa-home"></i>主页</a>
+            </li>
+            <li>
+                <a>基础信息</a>
+            </li>
+            <li class="active">
+                <strong>地区管理</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="title-env hidden-xs">
+        <button class="btn btn-turquoise" onclick="addInfo()">新增</button>
+        <button class="btn btn-pink" onclick="batchDelete()">批量删除</button>
+    </div>
+    <div class="title-env visible-xs">
+        <button class="btn btn-icon btn-turquoise" onclick="addInfo()">
+            <i class="iconfont">&#xe663;</i>
+        </button>
+        <button class="btn btn-icon btn-pink" onclick="batchDelete()">
+            <i class="iconfont">&#xe622;</i>
+        </button>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-body panel-border">
+                <table class="table table-model-2 table-hover lx-table">
+                    <thead><tr><th>Id</th><th>Name</th><th>操作</th></tr></thead>
+                </table>
+            </div>
+        </div>
+    </div>
+   
+</div>
+<a href="#"><i class="fa-angle-right"></i></a>
+
+@section FootScripts{
+    <script type="text/javascript">
+        function addInfo() {
+            openiframe('地区管理', '900', '400','AreaInfoCreate?sb=666')
+        }
+    </script>
+}

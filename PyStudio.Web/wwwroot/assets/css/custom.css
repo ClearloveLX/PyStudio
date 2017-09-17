@@ -1,0 +1,42 @@
+/**
+ *
+ * ClearloveLX CSS 
+ *
+*/
+
+.lx-table-left {
+    text-align: left;
+}
+
+.lx-table-center {
+    text-align: center;
+}
+
+.lx-table-right {
+    text-align: right;
+}
+
+.lx-table > thead > tr > th,
+.lx-table > tbody > tr > td,
+.lx-table > tfoot > tr > td {
+    text-align: center; /*左右居中*/
+    vertical-align: middle; /*上下居中*/
+}
+
+.fixedSave {
+    position: fixed;
+    width: 100%;
+    bottom: 0px;
+    padding-left: 20px;
+    padding-top: 10px;
+    left: 0;
+    _position: absolute;
+    z-index: 5000; /* for IE6 */
+    _top: expression(documentElement.scrollTop + documentElement.clientHeight-this.offsetHeight); /* for IE6 */
+    overflow: visible;
+    background-color: #fff;
+}
+
+.divpadding {
+    height: 60px;
+}

@@ -1,0 +1,71 @@
+@model PyStudio.Model.ClientModel.AreaInfo
+
+@{
+    ViewData["Title"] = "地区新增";
+    Layout = "~/Views/Shared/_SpecialLayout.cshtml";
+}
+
+<div class="col-sm-12">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <form method="post" name="form_submit" class="form-horizontal validate" action="/BaseInfo/AreaInfoCreate">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" asp-for="UpAreaName">所属类别</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" asp-for="UpAreaName" />
+                    </div>
+                </div>
+                <div class="form-group-separator"></div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" asp-for="AreaCode">地区编号</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" asp-for="AreaCode" />
+                    </div>
+                    <label class="col-sm-2 control-label" asp-for="AreaName">地区名称</label>
+                    <div class="col-sm-4 lx-validate">
+                        <input type="text" class="form-control" asp-for="AreaName" />
+                    </div>
+                </div>
+                <div class="form-group-separator"></div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" asp-for="AreaZipCode">邮政编码</label>
+                    <div class="col-sm-4 lx-validate">
+                        <input type="text" class="form-control" asp-for="AreaZipCode" />
+                    </div>
+                    <label class="col-sm-2 control-label" asp-for="AreaCoord">经纬度</label>
+                    <div class="col-sm-4 lx-validate">
+                        <input type="text" class="form-control" asp-for="AreaCoord" />
+                    </div>
+                </div>
+                <div class="form-group-separator"></div>
+                <input type="hidden" asp-for="AreaPid" />
+                <input type="hidden" asp-for="UpAreaPathId" />
+                <div class="divpadding"></div>
+                <div class="fixedSave">
+                    <div class="text-left">
+                        <button id="Save" type="submit" class="btn btn-info btn-icon btn-icon-standalone disabled">
+                            <i class="fa-save"></i>
+                            <span>保 存</span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section FootScripts{
+    <script type="text/javascript">
+        $("#AreaCode,#AreaName").on('change', function () {
+            if (!isEmpty($('#AreaCode').val()) && !isEmpty($('#AreaName').val())) {
+                $('#Save').removeClass("disabled");//如果为空，不允许录入，达到条件允许录入
+            } else {
+                $('#Save').addClass("disabled");
+            }
+        });
+
+        $("button[id='Save']").on('click', function () {
+            alert(1545);
+        });
+    </script>
+}
