@@ -32,9 +32,11 @@ namespace PyStudio.Web
             services.Configure<PySelfSetting>(Configuration.GetSection("PySelfSetting"));
 
             //添加数据库上下文
-            services.AddDbContext<PyStudioDBContext>(b => {
+            services.AddDbContext<PyStudioDBContext>(b =>
+            {
                 var dbLink = Configuration.GetSection("PySelfSetting:DbLink").Value;
-                if (string.IsNullOrWhiteSpace(dbLink)) {
+                if (string.IsNullOrWhiteSpace(dbLink))
+                {
                     throw new Exception("未找到数据库链接！");
                 }
                 b.UseSqlServer(dbLink);
@@ -45,7 +47,8 @@ namespace PyStudio.Web
             services.AddMemoryCache();
 
             //Session支持
-            services.AddSession(b => {
+            services.AddSession(b =>
+            {
                 b.IdleTimeout = TimeSpan.FromMinutes(60);//Session过期时间
                 b.Cookie.HttpOnly = true;
                 b.Cookie.Name = "ClearloveLX";
@@ -76,6 +79,9 @@ namespace PyStudio.Web
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+                routes.MapRoute(
+                    name: "areas",
+                    template: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

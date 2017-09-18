@@ -5,12 +5,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using PyStudio.Model.Models;
 using PyStudio.Model.ClientModel;
-using Microsoft.Extensions.Options;
-using PyStudio.Web.Extends;
 using PyStudio.Common;
+using PyStudio.Web.Extends;
+using Microsoft.Extensions.Options;
 
-namespace PyStudio.Web.Controllers
+namespace PyStudio.Web.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class BaseInfoController : Controller
     {
         private readonly PyStudioDBContext _context;
