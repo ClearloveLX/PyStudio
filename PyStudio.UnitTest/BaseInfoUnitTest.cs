@@ -12,6 +12,6 @@ namespace PyStudio.UnitTest
         {
             var result = _dataClass.FormatCode(_dataClass.GetSerialNumber(null));
             Assert.AreEqual(result, "10001", true);
-        }
+        } 
     }
 }

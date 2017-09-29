@@ -15,16 +15,44 @@ namespace PyStudio.Web.Extends
         /// <summary>
         /// 判断是否登陆
         /// </summary>
-        /// <param name="context">未登陆返回登陆页面</param>
-        public override void OnActionExecuting(ActionExecutingContext context)
+        /// <param name="context"></param>
+        //public override void OnActionExecuting(ActionExecutingContext context)
+        //{
+        //    _MyUserInfo = context.HttpContext.Session.Get<PyUserInfo>(context.HttpContext.Session.SessionKey());
+        //    if (_MyUserInfo == null)
+        //    {
+        //        //未登录跳转地址
+        //    }
+        //    ViewData["MyUserInfo"] = _MyUserInfo;
+        //    base.OnActionExecuting(context);
+        //}
+
+        /// <summary>
+        /// 获取到QueryString
+        /// </summary>
+        /// <param name="key">参数的Key</param>
+        /// <returns>参数的值</returns>
+        public string GetQueryString(string key)
         {
-            _MyUserInfo = context.HttpContext.Session.Get<PyUserInfo>(context.HttpContext.Session.SessionKey());
-            if (_MyUserInfo == null)
+            string _queryString = Request.Query[key].ToString();
+            string result = string.Empty;
+
+            try
             {
-                //未登录跳转地址
+                if (!string.IsNullOrWhiteSpace(_queryString))
+                {
+                    result = _queryString;
+                }
+                else
+                {
+                    result = "";
+                }
             }
-            ViewData["MyUserInfo"] = _MyUserInfo;
-            base.OnActionExecuting(context);
+            catch (Exception)
+            {
+                result = "";
+            }
+            return result;
         }
     }
 }

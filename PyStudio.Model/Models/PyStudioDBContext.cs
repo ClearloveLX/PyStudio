@@ -7,6 +7,7 @@ namespace PyStudio.Model.Models
     public partial class PyStudioDBContext : DbContext
     {
         public virtual DbSet<InfoArea> InfoArea { get; set; }
+        public virtual DbSet<InfoLogger> InfoLogger { get; set; }
 
         public PyStudioDBContext(DbContextOptions<PyStudioDBContext> options) : base(options) { }
 
@@ -28,6 +29,8 @@ namespace PyStudio.Model.Models
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
+                entity.Property(e => e.AreaLevel).HasDefaultValueSql("((0))");
+
                 entity.Property(e => e.AreaName).HasMaxLength(50);
 
                 entity.Property(e => e.AreaNote).HasMaxLength(150);
@@ -43,6 +46,17 @@ namespace PyStudio.Model.Models
                 entity.Property(e => e.AreaZipCode)
                     .HasMaxLength(50)
                     .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<InfoLogger>(entity =>
+            {
+                entity.HasKey(e => e.LoggerId);
+
+                entity.ToTable("Info_Logger");
+
+                entity.Property(e => e.LoggerCreateTime).HasColumnType("datetime");
+
+                entity.Property(e => e.LoggerDescription).HasColumnType("ntext");
             });
         }
     }

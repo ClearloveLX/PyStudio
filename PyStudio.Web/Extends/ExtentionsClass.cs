@@ -130,12 +130,29 @@ namespace PyStudio.Web.Extends
             }
             return val;
         }
+
+        public static string CharacterPrefix(this int Num, string Prefix = "├──")
+        {
+            if (Num > 0)
+            {
+
+            }
+            return null;
+        }
         #endregion
 
         #region 扩展
 
-        public static string GetRequestString(this string str) {
-            return null;
+        /// <summary>
+        /// 转换为Int类型
+        /// </summary>
+        /// <param name="val">要转换的值</param>
+        /// <returns>失败返回0</returns>
+        public static int ToInt(this string val)
+        {
+            int number;
+            bool isSuccessful = int.TryParse(val, out number);
+            return number;
         }
 
         #endregion
