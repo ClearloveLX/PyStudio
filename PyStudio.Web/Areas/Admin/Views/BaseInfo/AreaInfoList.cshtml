@@ -1,4 +1,5 @@
 @using PyStudio.Model.Models
+@using PyStudio.Web.Extends
 @model IEnumerable<InfoArea>
 
 @{
@@ -42,8 +43,8 @@
                         @foreach (var item in Model)
                         {
                             <tr data-lx-level="@item.AreaLevel" data-lx-id="@item.AreaId">
-                                <td>@item.AreaCode</td>
-                                <td>@item.AreaName</td>
+                                <td style="text-align:left">@item.AreaLevel.CharacterPrefix()@item.AreaCode</td>
+                                <td style="text-align:left">@item.AreaLevel.CharacterPrefix()@item.AreaName</td>
                                 <td>
                                     <div class="hidden-xs">
                                         <button class="btn btn-secondary btn-sm" onclick="addInfo($(this).parents('tr'))">同级</button>

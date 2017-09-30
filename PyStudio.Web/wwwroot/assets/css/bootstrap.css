@@ -2108,7 +2108,7 @@ th {
 .table-striped > tbody > tr:nth-child(odd) > th {
   background-color: #f9f9f9;
 }
-/*鼠标移到某处颜色变化 table-hover*/
+/*榧犳爣绉诲埌鏌愬棰滆壊鍙樺寲 table-hover*/
 .table-hover > tbody > tr:hover > td,
 .table-hover > tbody > tr:hover > th {
   background-color: #89c3eb;

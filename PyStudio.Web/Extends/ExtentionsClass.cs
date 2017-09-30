@@ -131,13 +131,33 @@ namespace PyStudio.Web.Extends
             return val;
         }
 
-        public static string CharacterPrefix(this int Num, string Prefix = "├──")
+        /// <summary>
+        /// 给字符串加前缀字符
+        /// </summary>
+        /// <param name="Num">要加的数量</param>
+        /// <param name="first">字符前缀</param>
+        /// <param name="supplement">填充字符</param>
+        /// <returns>如果为0不返回为空，如果为1以上开始运算</returns>
+        public static string CharacterPrefix(this int Num, string first = "├", string supplement = "──")
         {
+            string result = string.Empty;
+            var ment = string.Empty;
             if (Num > 0)
             {
-
+                if (Num == 1)
+                {
+                    result = first + supplement + " ";
+                }
+                else
+                {
+                    for (int i = 0; i < Num; i++)
+                    {
+                        ment += supplement;
+                    }
+                    result = first + ment + " ";
+                }
             }
-            return null;
+            return result;
         }
         #endregion
 
