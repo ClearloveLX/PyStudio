@@ -1,15 +1,14 @@
 @model PyStudio.Model.ClientModel.AreaInfo
 
 @{
-    ViewData["Title"] = "地区新增";
+    ViewData["Title"] = "地区修改";
     Layout = "~/Areas/Admin/Views/Shared/_SpecialLayout.cshtml";
 }
 
 <div class="col-sm-12">
     <div class="panel panel-default">
         <div class="panel-body">
-
-            <form method="post" name="form_submit" class="validate" action="~/Admin/BaseInfo/AreaInfoCreate">
+            <form method="post" name="form_submit" class="validate" action="~/Admin/BaseInfo/AreaInfoModify">
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="form-group">
@@ -46,9 +45,9 @@
                         </div>
                     </div>
                 </div>
-                <input type="hidden" asp-for="AreaPid" />
+                <input type="hidden" asp-for="AreaId" />
                 <input type="hidden" asp-for="UpAreaPathId" />
-                <input type="hidden" asp-for="AreaLevel" />
+                <input type="hidden" asp-for="AreaPathId" />
                 <div class="divpadding"></div>
                 <div class="fixedSave">
                     <div class="text-left">
@@ -63,7 +62,3 @@
         </div>
     </div>
 </div>
-
-@section FootScripts{
-
-}

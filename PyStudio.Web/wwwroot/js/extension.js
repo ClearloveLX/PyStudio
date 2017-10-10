@@ -57,7 +57,7 @@ function openiframe() {
         });
         layer.load
     } else if (arguments.length == 4) {
-        //标题，自定义大小窗口（如果大于100就写死，小雨100按百分比）
+        //标题，自定义大小窗口（如果大于100就写死，小于100按百分比）
         layer.open({
             type: 2,
             title: arguments[0],
@@ -72,18 +72,24 @@ function openiframe() {
     }
 }
 
-/*自定义提示*/
-
-function openmsg() {
+/**
+* 自定义提示
+* icon：1-成功,2-失败,3-未知,4-锁定,5-苦脸,6-笑脸,0-感叹号
+*/
+function openMsg() {
     if (arguments.length == 1) {
         layer.msg(arguments[0]);//只提示文字
     } else if (arguments.length == 2) {
-        if (arguments[1] == '0') {
+        if (arguments[1] == false) {
             layer.msg(arguments[0], { icon: 2, time: 1500 });//提示失败
-        } else if (arguments[1] == '1') {
+        } else if (arguments[1] == true) {
             layer.msg(arguments[0], { icon: 1, time: 1000 }, function () { parent.location = parent.location; });//提示成功并且刷新
+        }
+    } else if (arguments.length == 3) {
+        if (arguments[1] == true) {
+            layer.msg(arguments[0], { icon: arguments[2], time: 1000 }, function () { parent.location = parent.location; });
         } else {
-            layer.msg(arguments[0], { icon: 0, time: 1500 });//提示
+            layer.msg(arguments[0], { icon: arguments[2], time: 1500 });
         }
     }
 }

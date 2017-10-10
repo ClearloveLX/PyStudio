@@ -44,4 +44,14 @@ namespace PyStudio.Model.ClientModel
     {
 
     }
+
+    /// <summary>
+    /// 登录信息
+    /// </summary>
+    public class PyStudioPromptData
+    {
+        public int IsOK { get; set; }
+        public string Msg { get; set; }
+        public object Data { get; set; }
+    }
 }

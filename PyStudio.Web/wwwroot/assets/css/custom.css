@@ -40,3 +40,123 @@
 .divpadding {
     height: 60px;
 }
+
+/*分级颜色定义*/
+
+.table > thead > tr > td.lx-level-0,
+.table > tbody > tr > td.lx-level-0,
+.table > tfoot > tr > td.lx-level-0,
+.table > thead > tr > th.lx-level-0,
+.table > tbody > tr > th.lx-level-0,
+.table > tfoot > tr > th.lx-level-0,
+.table > thead > tr.lx-level-0 > td,
+.table > tbody > tr.lx-level-0 > td,
+.table > tfoot > tr.lx-level-0 > td,
+.table > thead > tr.lx-level-0 > th,
+.table > tbody > tr.lx-level-0 > th,
+.table > tfoot > tr.lx-level-0 > th {
+    color: #41555d;
+}
+
+.table-hover > tbody > tr > td.lx-level-0:hover,
+.table-hover > tbody > tr > th.lx-level-0:hover,
+.table-hover > tbody > tr.lx-level-0:hover > td,
+.table-hover > tbody > tr:hover > .lx-level-0,
+.table-hover > tbody > tr.lx-level-0:hover > th {
+    color: black;
+}
+
+.table > thead > tr > td.lx-level-1,
+.table > tbody > tr > td.lx-level-1,
+.table > tfoot > tr > td.lx-level-1,
+.table > thead > tr > th.lx-level-1,
+.table > tbody > tr > th.lx-level-1,
+.table > tfoot > tr > th.lx-level-1,
+.table > thead > tr.lx-level-1 > td,
+.table > tbody > tr.lx-level-1 > td,
+.table > tfoot > tr.lx-level-1 > td,
+.table > thead > tr.lx-level-1 > th,
+.table > tbody > tr.lx-level-1 > th,
+.table > tfoot > tr.lx-level-1 > th {
+    color: #815476;
+}
+
+.table-hover > tbody > tr > td.lx-level-1:hover,
+.table-hover > tbody > tr > th.lx-level-1:hover,
+.table-hover > tbody > tr.lx-level-1:hover > td,
+.table-hover > tbody > tr:hover > .lx-level-1,
+.table-hover > tbody > tr.lx-level-1:hover > th {
+    color: black;
+}
+
+
+.table > thead > tr > td.lx-level-2,
+.table > tbody > tr > td.lx-level-2,
+.table > tfoot > tr > td.lx-level-2,
+.table > thead > tr > th.lx-level-2,
+.table > tbody > tr > th.lx-level-2,
+.table > tfoot > tr > th.lx-level-2,
+.table > thead > tr.lx-level-2 > td,
+.table > tbody > tr.lx-level-2 > td,
+.table > tfoot > tr.lx-level-2 > td,
+.table > thead > tr.lx-level-2 > th,
+.table > tbody > tr.lx-level-2 > th,
+.table > tfoot > tr.lx-level-2 > th {
+    color: #057748;
+}
+
+.table-hover > tbody > tr > td.lx-level-2:hover,
+.table-hover > tbody > tr > th.lx-level-2:hover,
+.table-hover > tbody > tr.lx-level-2:hover > td,
+.table-hover > tbody > tr:hover > .lx-level-2,
+.table-hover > tbody > tr.lx-level-2:hover > th {
+    color: black;
+}
+
+
+.table > thead > tr > td.lx-level-3,
+.table > tbody > tr > td.lx-level-3,
+.table > tfoot > tr > td.lx-level-3,
+.table > thead > tr > th.lx-level-3,
+.table > tbody > tr > th.lx-level-3,
+.table > tfoot > tr > th.lx-level-3,
+.table > thead > tr.lx-level-3 > td,
+.table > tbody > tr.lx-level-3 > td,
+.table > tfoot > tr.lx-level-3 > td,
+.table > thead > tr.lx-level-3 > th,
+.table > tbody > tr.lx-level-3 > th,
+.table > tfoot > tr.lx-level-3 > th {
+    color: #aacf53;
+}
+
+.table-hover > tbody > tr > td.lx-level-3:hover,
+.table-hover > tbody > tr > th.lx-level-3:hover,
+.table-hover > tbody > tr.lx-level-3:hover > td,
+.table-hover > tbody > tr:hover > .lx-level-3,
+.table-hover > tbody > tr.lx-level-3:hover > th {
+    color: black;
+}
+
+
+.table > thead > tr > td.lx-level-4,
+.table > tbody > tr > td.lx-level-4,
+.table > tfoot > tr > td.lx-level-4,
+.table > thead > tr > th.lx-level-4,
+.table > tbody > tr > th.lx-level-4,
+.table > tfoot > tr > th.lx-level-4,
+.table > thead > tr.lx-level-4 > td,
+.table > tbody > tr.lx-level-4 > td,
+.table > tfoot > tr.lx-level-4 > td,
+.table > thead > tr.lx-level-4 > th,
+.table > tbody > tr.lx-level-4 > th,
+.table > tfoot > tr.lx-level-4 > th {
+    color: #f09199;
+}
+
+.table-hover > tbody > tr > td.lx-level-4:hover,
+.table-hover > tbody > tr > th.lx-level-4:hover,
+.table-hover > tbody > tr.lx-level-4:hover > td,
+.table-hover > tbody > tr:hover > .lx-level-4,
+.table-hover > tbody > tr.lx-level-4:hover > th {
+    color: black;
+}

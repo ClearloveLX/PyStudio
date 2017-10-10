@@ -117,7 +117,7 @@ namespace PyStudio.Web.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 #region 验证是否存在重复
-                if (_context.InfoArea.Any(b => b.AreaName.ToUpper() == _areaInfo.AreaName.Trim().ToUpper()))//验证名称是否重复
+                if (_context.InfoArea.Any(b => b.AreaName.ToUpper() == _areaInfo.AreaName.Trim().ToUpper() && b.AreaLevel.Equals(_areaInfo.AreaLevel)))//验证名称是否重复
                 {
                     this.MsgBox("已存在相同的名称！");
                     return View(_areaInfo);
@@ -167,8 +167,116 @@ namespace PyStudio.Web.Areas.Admin.Controllers
                 }
             }
             return View(_areaInfo);
+
+
+
+
         }
 
+        /// <summary>
+        /// 地区修改GET
+        /// </summary>
+        /// <param name="id">地区ID</param>
+        /// <returns></returns>
+        public IActionResult AreaInfoModify(int id)
+        {
+            AreaInfo _areaInfo = new AreaInfo();
+            var result = (from t1 in _context.InfoArea
+                          where t1.AreaId.Equals(id)
+                          join t2 in _context.InfoArea
+                          on t1.AreaPid equals t2.AreaId.ToString()
+                          select new
+                          {
+                              UpName = t2.AreaName,
+                              UpPathId = t2.AreaPathId,
+                              ThisId = t1.AreaId,
+                              ThisCode = t1.AreaCode,
+                              ThisName = t1.AreaName,
+                              ThisPathId = t1.AreaPathId,
+                              ThisCoord = t1.AreaCoord,
+                              ThisZipCode = t1.AreaZipCode,
+                              ThisNote = t1.AreaNote
+                          }).FirstOrDefault();
+
+            if (result != null)
+            {
+                _areaInfo.UpAreaName = result.UpName;
+                _areaInfo.UpAreaPathId = result.UpPathId;
+                _areaInfo.AreaId = result.ThisId;
+                _areaInfo.AreaCode = result.ThisCode;
+                _areaInfo.AreaName = result.ThisName;
+                _areaInfo.AreaPathId = result.ThisPathId;
+                _areaInfo.AreaCoord = result.ThisCoord;
+                _areaInfo.AreaZipCode = result.ThisZipCode;
+                _areaInfo.AreaNote = result.ThisNote;
+            }
+            return View(_areaInfo);
+        }
+
+        /// <summary>
+        /// 地区修改POST
+        /// </summary>
+        /// <param name="_areaInfo"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AreaInfoModify([Bind("AreaId,AreaPathId,AreaName,AreaCoord,AreaZipCode,AreaNote,UpAreaName,UpAreaPathId")]AreaInfo _areaInfo)
+        {
+            if (ModelState.IsValid)
+            {
+                var infoArea = _context.InfoArea.Where(b => b.AreaId.Equals(_areaInfo.AreaId) && b.AreaPathId.Equals(_areaInfo.AreaPathId)).FirstOrDefault();
+                if (infoArea != null)
+                {
+                    infoArea.AreaName = _areaInfo.AreaName;
+                    infoArea.AreaCoord = _areaInfo.AreaCoord;
+                    infoArea.AreaZipCode = _areaInfo.AreaZipCode;
+                    infoArea.AreaNote = _areaInfo.AreaNote;
+                    var result = await _context.SaveChangesAsync();
+                    if (result > 0)
+                    {
+                        this.MsgBox("修改成功！");
+                    }
+                    else
+                    {
+                        this.MsgBox("修改失败！");
+                        return View(_areaInfo);
+                    }
+                }
+                else
+                {
+                    this.MsgBox("修改失败！请稍后再试...");
+                    return View(_areaInfo);
+                }
+            }
+            return View(_areaInfo);
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> AreaInfoDelete(int id)
+        {
+            var infoArea = _context.InfoArea.FirstOrDefault(t => t.AreaId.Equals(id));
+            var data = new PyStudioPromptData();
+            if (infoArea != null)
+            {
+                _context.InfoArea.Remove(infoArea);
+                var result = await _context.SaveChangesAsync();
+                if (result > 0)
+                {
+                    data.IsOK = 1;
+                    data.Msg = "删除成功";
+                }
+                else
+                {
+                    data.IsOK = 0;
+                    data.Msg = "删除失败！";
+                }
+            }
+            else {
+                data.IsOK = 2;
+                data.Msg = "未找到数据！";
+            }
+            return Json(data);
+        }
         #endregion
     }
 }

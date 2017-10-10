@@ -42,15 +42,15 @@
                     <tbody>
                         @foreach (var item in Model)
                         {
-                            <tr data-lx-level="@item.AreaLevel" data-lx-id="@item.AreaId">
+                            <tr data-lx-level="@item.AreaLevel" data-lx-id="@item.AreaId" class="lx-level-@item.AreaLevel">
                                 <td style="text-align:left">@item.AreaLevel.CharacterPrefix()@item.AreaCode</td>
                                 <td style="text-align:left">@item.AreaLevel.CharacterPrefix()@item.AreaName</td>
                                 <td>
                                     <div class="hidden-xs">
                                         <button class="btn btn-secondary btn-sm" onclick="addInfo($(this).parents('tr'))">同级</button>
                                         <button class="btn btn-purple btn-sm" onclick="lowInfo($(this).parents('tr'))">下级</button>
-                                        <button class="btn btn-orange btn-sm">修改</button>
-                                        <button class="btn btn-danger btn-sm">删除</button>
+                                        <button class="btn btn-orange btn-sm" onclick="modifyInfo($(this).parents('tr'))">修改</button>
+                                        <button class="btn btn-danger btn-sm" onclick="deleteInfo($(this).parents('tr'))">删除</button>
                                         <button class="btn btn-primary btn-sm">查看</button>
                                     </div>
                                     <div class="visible-xs">
@@ -83,6 +83,38 @@
             var id = isEmpty($(obj).data("lx-id")) ? '' : $(obj).data("lx-id");
             level = parseInt(level) + 1;
             openiframe('地区管理', '900', '400', 'AreaInfoCreate?tag=low&level=' + level + '&id=' + id)
+        }
+
+        function modifyInfo(obj) {
+            var id = isEmpty($(obj).data("lx-id")) ? '' : $(obj).data("lx-id");
+            openiframe('地区管理', '900', '400', 'AreaInfoModify?id=' + id)
+        }
+
+        function deleteInfo(obj) {
+            var id = isEmpty($(obj).data("lx-id")) ? '' : $(obj).data("lx-id");
+            confirm_ = confirm('是否要删除？');
+            if (confirm_) {
+                $.ajax({
+                    type: "POST",
+                    url: 'AreaInfoDelete',
+                    data: { id: id },
+                    success: function (data) {
+                        if (data.isOK == 0) {
+                            openMsg(data.msg, false, 5);
+                        } else if (data.isOK == 1) {
+                            openMsg(data.msg, false, 6);
+                            $(obj).remove();
+                        } else if (data.isOK == 2) {
+                            openMsg(data.msg, false, 0);
+                        } else {
+                            openMsg("内部错误，请稍后...", false, 3);
+                        }
+                    },
+                    error: function () {
+                        openMsg("内部错误，请稍后...", false, 3);
+                    }
+                });
+            }
         }
     </script>
 }
