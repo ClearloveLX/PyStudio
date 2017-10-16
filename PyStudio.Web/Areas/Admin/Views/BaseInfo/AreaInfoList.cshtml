@@ -51,14 +51,14 @@
                                         <button class="btn btn-purple btn-sm" onclick="lowInfo($(this).parents('tr'))">下级</button>
                                         <button class="btn btn-orange btn-sm" onclick="modifyInfo($(this).parents('tr'))">修改</button>
                                         <button class="btn btn-danger btn-sm" onclick="deleteInfo($(this).parents('tr'))">删除</button>
-                                        <button class="btn btn-primary btn-sm">查看</button>
+                                        <button class="btn btn-primary btn-sm" onclick="detailInfo($(this).parents('tr'))">查看</button>
                                     </div>
                                     <div class="visible-xs">
                                         <button class="btn btn-secondary btn-sm" onclick="addInfo($(this).parents('tr'))"><i class="iconfont">&#xe645;</i></button>
-                                        <button class="btn btn-purple btn-sm"><i class="iconfont">&#xe609;</i></button>
-                                        <button class="btn btn-orange btn-sm"><i class="iconfont">&#xe64d;</i></button>
-                                        <button class="btn btn-danger btn-sm"><i class="iconfont">&#xe61c;</i></button>
-                                        <button class="btn btn-primary btn-sm"><i class="iconfont">&#xe703;</i></button>
+                                        <button class="btn btn-purple btn-sm"  onclick="lowInfo($(this).parents('tr'))"><i class="iconfont">&#xe609;</i></button>
+                                        <button class="btn btn-orange btn-sm"  onclick="modifyInfo($(this).parents('tr'))"><i class="iconfont">&#xe64d;</i></button>
+                                        <button class="btn btn-danger btn-sm"  onclick="deleteInfo($(this).parents('tr'))"><i class="iconfont">&#xe61c;</i></button>
+                                        <button class="btn btn-primary btn-sm"  onclick="detailInfo($(this).parents('tr'))"><i class="iconfont">&#xe703;</i></button>
                                     </div>
                                 </td>
                             </tr>
@@ -75,19 +75,24 @@
         function addInfo(obj) {
             var level = isEmpty($(obj).data("lx-level")) ? '0' : $(obj).data("lx-level");
             var id = isEmpty($(obj).data("lx-id")) ? '' : $(obj).data("lx-id");
-            openiframe('地区管理', '900', '400', 'AreaInfoCreate?tag=add&level=' + level + '&id=' + id)
+            openiframe('新增地区', '900', '400', 'AreaInfoCreate?tag=add&level=' + level + '&id=' + id)
         }
 
         function lowInfo(obj) {
             var level = isEmpty($(obj).data("lx-level")) ? '0' : $(obj).data("lx-level");
             var id = isEmpty($(obj).data("lx-id")) ? '' : $(obj).data("lx-id");
             level = parseInt(level) + 1;
-            openiframe('地区管理', '900', '400', 'AreaInfoCreate?tag=low&level=' + level + '&id=' + id)
+            openiframe('新增地区', '900', '400', 'AreaInfoCreate?tag=low&level=' + level + '&id=' + id)
         }
 
         function modifyInfo(obj) {
             var id = isEmpty($(obj).data("lx-id")) ? '' : $(obj).data("lx-id");
-            openiframe('地区管理', '900', '400', 'AreaInfoModify?id=' + id)
+            openiframe('地区修改', '900', '400', 'AreaInfoModify?id=' + id)
+        }
+
+        function detailInfo(obj) {
+            var id = isEmpty($(obj).data("lx-id")) ? '' : $(obj).data("lx-id");
+            openiframe('地区查看', '900', '400', 'AreaInfoDetails?id=' + id)
         }
 
         function deleteInfo(obj) {
@@ -100,10 +105,9 @@
                     data: { id: id },
                     success: function (data) {
                         if (data.isOK == 0) {
-                            openMsg(data.msg, false, 5);
+                            openMsg(data.msg, false);
                         } else if (data.isOK == 1) {
-                            openMsg(data.msg, false, 6);
-                            $(obj).remove();
+                            openMsg(data.msg, true);
                         } else if (data.isOK == 2) {
                             openMsg(data.msg, false, 0);
                         } else {

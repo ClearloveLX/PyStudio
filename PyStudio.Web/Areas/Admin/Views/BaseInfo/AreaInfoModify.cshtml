@@ -8,7 +8,7 @@
 <div class="col-sm-12">
     <div class="panel panel-default">
         <div class="panel-body">
-            <form method="post" name="form_submit" class="validate" action="~/Admin/BaseInfo/AreaInfoModify">
+            <form method="post" name="form_submit" class="validate">
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="form-group">
@@ -45,20 +45,51 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group lx-validate">
+                            <label class="control-label" asp-for="AreaCoord">备 注</label>
+                            <textarea class="form-control autogrow" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 50px;" asp-for="AreaNote"></textarea>
+                        </div>
+                    </div>
+                </div>
                 <input type="hidden" asp-for="AreaId" />
                 <input type="hidden" asp-for="UpAreaPathId" />
                 <input type="hidden" asp-for="AreaPathId" />
                 <div class="divpadding"></div>
                 <div class="fixedSave">
                     <div class="text-left">
-                        <button id="Save" type="submit" class="btn btn-info btn-icon btn-icon-standalone">
+                        <button id="ModifySave" type="button" class="btn btn-info btn-icon btn-icon-standalone">
                             <i class="fa-save"></i>
-                            <span>@(ViewData["MsgBox"] ?? "提 交")</span>
+                            <span>修 改</span>
                         </button>
-                        <span id="msgBox" style="color:darkred"></span>
                     </div>
                 </div>
             </form>
         </div>
     </div>
 </div>
+
+@section FootScripts{
+    <script type="text/javascript">
+        $("#ModifySave").on('click', function () {
+            $.ajax({
+                type: "POST",
+                url: 'AreaInfoModify',
+                data: $("form[name='form_submit']").serialize(),
+                success: function (data) {
+                    if (data.isOK == 0) {
+                        openMsg(data.msg, false);
+                    } else if (data.isOK == 1) {
+                        openMsg(data.msg, true);
+                    } else {
+                        openMsg("内部错误，请稍后...", false, 3);
+                    }
+                },
+                error: function () {
+                    openMsg("内部错误，请稍后...", false, 3);
+                }
+            });
+        });
+    </script>
+}

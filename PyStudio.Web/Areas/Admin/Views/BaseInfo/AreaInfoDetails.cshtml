@@ -1,7 +1,7 @@
 @model PyStudio.Model.ClientModel.AreaInfo
 
 @{
-    ViewData["Title"] = "地区新增";
+    ViewData["Title"] = "地区信息查看";
     Layout = "~/Areas/Admin/Views/Shared/_SpecialLayout.cshtml";
 }
 
@@ -9,7 +9,7 @@
     <div class="panel panel-default">
         <div class="panel-body">
 
-            <form method="post" name="form_submit" class="validate" action="~/Admin/BaseInfo/AreaInfoCreate">
+            <form name="form_submit" class="validate">
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="form-group">
@@ -28,7 +28,7 @@
                     <div class="col-sm-6">
                         <div class="form-group lx-validate">
                             <label class="control-label" asp-for="AreaName">地区名称</label>
-                            <input type="text" class="form-control" asp-for="AreaName" data-validate="required" data-message-required="地区名称不能为空！" />
+                            <input type="text" readonly class="form-control" asp-for="AreaName" data-validate="required" data-message-required="地区名称不能为空！" />
                         </div>
                     </div>
                 </div>
@@ -36,13 +36,13 @@
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label class="control-label" asp-for="AreaZipCode">邮政编码</label>
-                            <input type="text" class="form-control" asp-for="AreaZipCode" />
+                            <input type="text" readonly class="form-control" asp-for="AreaZipCode" />
                         </div>
                     </div>
                     <div class="col-sm-6">
-                        <div class="form-group">
+                        <div class="form-group lx-validate">
                             <label class="control-label" asp-for="AreaCoord">经纬度</label>
-                            <input type="text" class="form-control" asp-for="AreaCoord" />
+                            <input type="text" readonly class="form-control" asp-for="AreaCoord" />
                         </div>
                     </div>
                 </div>
@@ -50,7 +50,7 @@
                     <div class="col-sm-12">
                         <div class="form-group lx-validate">
                             <label class="control-label" asp-for="AreaCoord">备 注</label>
-                            <textarea class="form-control autogrow"style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 50px;" asp-for="AreaNote"></textarea>
+                            <textarea readonly class="form-control autogrow" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 50px;" asp-for="AreaNote"></textarea>
                         </div>
                     </div>
                 </div>
@@ -58,7 +58,7 @@
                 <input type="hidden" asp-for="UpAreaPathId" />
                 <input type="hidden" asp-for="AreaLevel" />
                 <div class="divpadding"></div>
-                <div class="fixedSave">
+                @*<div class="fixedSave">
                     <div class="text-left">
                         <button id="Save" type="submit" class="btn btn-info btn-icon btn-icon-standalone">
                             <i class="fa-save"></i>
@@ -66,8 +66,9 @@
                         </button>
                         <span id="msgBox" style="color:darkred"></span>
                     </div>
-                </div>
+                </div>*@
             </form>
         </div>
     </div>
 </div>
+
