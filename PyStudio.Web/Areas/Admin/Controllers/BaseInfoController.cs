@@ -158,6 +158,7 @@ namespace PyStudio.Web.Areas.Admin.Controllers
                 if (result > 0)
                 {
                     this.MsgBox("提交成功！");
+                    _context.InfoLogger.Add(new InfoLogger {});
                     Response.Redirect($"AreaInfoCreate?tag=add&level={_areaInfo.AreaLevel}&id={_areaInfo.AreaId}");
                 }
                 else
@@ -292,6 +293,11 @@ namespace PyStudio.Web.Areas.Admin.Controllers
             return Json(data);
         }
 
+        /// <summary>
+        /// 地区查看
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public IActionResult AreaInfoDetails(int id)
         {
             AreaInfo _areaInfo = new AreaInfo();

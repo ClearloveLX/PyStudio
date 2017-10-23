@@ -1,6 +1,4 @@
-/**
-JS扩展工具类
-*/
+/*JS扩展工具类*/
 
 /*自定义LayUI组件*/
 
@@ -81,19 +79,25 @@ function openMsg() {
         layer.msg(arguments[0]);//只提示文字
     } else if (arguments.length == 2) {
         if (arguments[1] == false) {
-            layer.msg(arguments[0], { icon: 2, time: 1500 });//提示失败
+            layer.msg('<a style="color:#203744">' + arguments[0] + '</a>', { icon: 2, time: 1500 });//提示失败
         } else if (arguments[1] == true) {
-            layer.msg(arguments[0], { icon: 1, time: 1000 }, function () { parent.location = parent.location; });//提示成功并且刷新
+            layer.msg('<a style="color:#203744">' + arguments[0]+'</a>', { icon: 1, time: 1000 }, function () { parent.location = parent.location; });//提示成功并且刷新
         }
     } else if (arguments.length == 3) {
         if (arguments[1] == true) {
-            layer.msg(arguments[0], { icon: arguments[2], time: 1000 }, function () { parent.location = parent.location; });
+            layer.msg('<a style="color:#203744">' + arguments[0] + '</a>', { icon: arguments[2], time: 1000 }, function () { parent.location = parent.location; });
         } else {
-            layer.msg(arguments[0], { icon: arguments[2], time: 1500 });
+            layer.msg('<a style="color:#203744">' + arguments[0] + '</a>', { icon: arguments[2], time: 1500 });
         }
     }
 }
-
+/**
+ * 关闭弹出层
+ */
+function closeLayer() {
+    var index = parent.layer.getFrameIndex(window.name);
+    parent.layer.close(index);
+}
 
 /**
 * 判断是否为空 

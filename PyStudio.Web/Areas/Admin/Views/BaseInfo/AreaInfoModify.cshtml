@@ -5,74 +5,82 @@
     Layout = "~/Areas/Admin/Views/Shared/_SpecialLayout.cshtml";
 }
 
-<div class="col-sm-12">
-    <div class="panel panel-default">
-        <div class="panel-body">
-            <form method="post" name="form_submit" class="validate">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label class="control-label" asp-for="UpAreaName">所属类别</label>
-                            <input type="text" readonly class="form-control" asp-for="UpAreaName" />
+<body class="lx-body-white">
+    <div class="col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form method="post" name="form_submit" class="validate">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label class="control-label" asp-for="UpAreaName">所属类别</label>
+                                <input type="text" readonly class="form-control" asp-for="UpAreaName" />
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label class="control-label" asp-for="AreaCode">地区编号</label>
-                            <input type="text" readonly class="form-control" asp-for="AreaCode" />
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label" asp-for="AreaCode">地区编号</label>
+                                <input type="text" readonly class="form-control" asp-for="AreaCode" />
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group lx-validate">
+                                <label class="control-label" asp-for="AreaName">地区名称</label>
+                                <input type="text" class="form-control" asp-for="AreaName" data-validate="required" data-message-required="地区名称不能为空！" />
+                            </div>
                         </div>
                     </div>
-                    <div class="col-sm-6">
-                        <div class="form-group lx-validate">
-                            <label class="control-label" asp-for="AreaName">地区名称</label>
-                            <input type="text" class="form-control" asp-for="AreaName" data-validate="required" data-message-required="地区名称不能为空！" />
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label" asp-for="AreaZipCode">邮政编码</label>
+                                <input type="text" class="form-control" asp-for="AreaZipCode" />
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group lx-validate">
+                                <label class="control-label" asp-for="AreaCoord">经纬度</label>
+                                <input type="text" class="form-control" asp-for="AreaCoord" />
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label class="control-label" asp-for="AreaZipCode">邮政编码</label>
-                            <input type="text" class="form-control" asp-for="AreaZipCode" />
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group lx-validate">
+                                <label class="control-label" asp-for="AreaCoord">备 注</label>
+                                <textarea class="form-control autogrow" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 50px;" asp-for="AreaNote"></textarea>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-sm-6">
-                        <div class="form-group lx-validate">
-                            <label class="control-label" asp-for="AreaCoord">经纬度</label>
-                            <input type="text" class="form-control" asp-for="AreaCoord" />
+                    <input type="hidden" asp-for="AreaId" />
+                    <input type="hidden" asp-for="UpAreaPathId" />
+                    <input type="hidden" asp-for="AreaPathId" />
+                    <div class="divpadding"></div>
+                    <div class="fixedSave">
+                        <div class="text-left">
+                            <button id="ModifySave" type="button" class="btn btn-info btn-icon btn-icon-standalone">
+                                <i class="fa-save"></i>
+                                <span>修 改</span>
+                            </button>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="form-group lx-validate">
-                            <label class="control-label" asp-for="AreaCoord">备 注</label>
-                            <textarea class="form-control autogrow" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 50px;" asp-for="AreaNote"></textarea>
-                        </div>
-                    </div>
-                </div>
-                <input type="hidden" asp-for="AreaId" />
-                <input type="hidden" asp-for="UpAreaPathId" />
-                <input type="hidden" asp-for="AreaPathId" />
-                <div class="divpadding"></div>
-                <div class="fixedSave">
-                    <div class="text-left">
-                        <button id="ModifySave" type="button" class="btn btn-info btn-icon btn-icon-standalone">
-                            <i class="fa-save"></i>
-                            <span>修 改</span>
-                        </button>
-                    </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
-</div>
-
+</body>
 @section FootScripts{
     <script type="text/javascript">
         $("#ModifySave").on('click', function () {
+            console.log($("form[name='form_submit']").serialize());
+            //Ajax提交时form表单验证失效，暂时用手工判断。
+            if (isEmpty($("#AreaName").val())) {
+                openMsg("地区名称不能为空！");
+                $("#AreaName").focus();
+                return;
+            }
             $.ajax({
                 type: "POST",
                 url: 'AreaInfoModify',
