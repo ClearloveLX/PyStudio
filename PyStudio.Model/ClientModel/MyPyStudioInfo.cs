@@ -40,9 +40,72 @@ namespace PyStudio.Model.ClientModel
         public string DbLink { get; set; }
     }
 
+    /// <summary>
+    /// 用户信息存储
+    /// </summary>
     public class PyUserInfo
     {
-
+        /// <summary>
+        /// 用户ID
+        /// </summary>
+        public int UserId { get; set; }
+        /// <summary>
+        /// 用户名
+        /// </summary>
+        public string UserName { get; set; }
+        /// <summary>
+        /// 用户昵称
+        /// </summary>
+        public string UserNickName { get; set; }
+        /// <summary>
+        /// 用户邮箱
+        /// </summary>
+        public string UserEmail { get; set; }
+        /// <summary>
+        /// 联系方式
+        /// </summary>
+        public string UserTel { get; set; }
+        /// <summary>
+        /// 性别
+        /// @Note 0女 1男 2默认/未知/保密
+        /// </summary>
+        public int UserSex { get; set; }
+        /// <summary>
+        /// 介绍
+        /// </summary>
+        public string UserIntroduce { get; set; }
+        /// <summary>
+        /// 头像地址
+        /// </summary>
+        public string UserHeadPhoto { get; set; }
+        /// <summary>
+        /// 生日
+        /// </summary>
+        public DateTime? UserBirthday { get; set; }
+        /// <summary>
+        /// 地址
+        /// </summary>
+        public string UserAddress { get; set; }
+        /// <summary>
+        /// 博客地址
+        /// </summary>
+        public string UserBlog { get; set; }
+        /// <summary>
+        /// 启用状态
+        /// </summary>
+        public int UserStatus { get; set; }
+        /// <summary>
+        /// 注册时间
+        /// </summary>
+        public DateTime UserCreateTime { get; set; }
+        /// <summary>
+        /// 登录时间
+        /// </summary>
+        public DateTime? UserLoginTime { get; set; }
+        /// <summary>
+        /// 登录Ip
+        /// </summary>
+        public string UserIps { get; set; }
     }
 
     /// <summary>

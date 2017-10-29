@@ -10,5 +10,6 @@ namespace PyStudio.Model.Models
         public string LoggerDescription { get; set; }
         public int? LoggerOperation { get; set; }
         public DateTime? LoggerCreateTime { get; set; }
+        public string LoggerIps { get; set; }
     }
 }

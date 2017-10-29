@@ -1,0 +1,78 @@
+@model PyStudio.Model.ClientModel.PyLoginUser
+
+@{
+    ViewData["Title"] = "后台登录";
+    Layout = "~/Areas/Admin/Views/Shared/_SpecialLayout.cshtml";
+}
+
+
+<body class="page-body login-page login-light">
+    <div class="login-container">
+        <div class="row">
+            <div class="col-sm-6">
+
+                <script type="text/javascript">
+                    jQuery(document).ready(function ($) {
+                        setTimeout(function () { $(".fade-in-effect").addClass('in'); }, 1);
+                    });
+                </script>
+                <form method="post" id="login" class="login-form fade-in-effect validate">
+                    <div class="login-header">
+                        <a class="logo">
+                            <img src="~/assets/images/logo-white-bg@2x.png" alt="" width="80" />
+                            <span>登录</span>
+                        </a>
+                        <p>亲爱的用户，欢迎登录后台管理！</p>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" asp-for="UserName" autocomplete="off" />
+                    </div>
+
+                    <div class="form-group">
+                        <input type="password" class="form-control" asp-for="UserPwd" autocomplete="off" />
+                    </div>
+                    <div class="form-group">
+                        <button id="SiginIn" type="button" class="btn btn-primary  btn-block text-left">
+                            <i class="fa-lock"></i>
+                            Sign in
+                        </button>
+                    </div>
+                    <div class="login-footer">
+                        <a href="#">忘记密码?</a>
+
+                        <div class="info-links">
+                            <a href="#">用户条款</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+@section FootScripts{
+    <script type="text/javascript">
+        $("#SiginIn").on('click', function () {
+            $.ajax({
+                type: "POST",
+                url: "/api/AccountApi/Login",
+                data: $("form[id='login']").serialize(),
+                success: function (data) {
+                    if (data.isOK == 0) {
+                        openMsg(data.msg, false);
+                    } else if (data.isOK == 1) {
+                        openMsg(data.msg, true);
+                        location.href = "/Admin/Home/Index";
+                    } else if (data.isOK == 2) {
+                        openMsg(data.msg, false, 0);
+                    } else {
+                        openMsg("内部错误，请稍后...", false, 3);
+                    }
+                },
+                error: function () {
+                    openMsg("内部错误，请稍后...", false, 3);
+                }
+            });
+        });
+    </script>
+}

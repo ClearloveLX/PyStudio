@@ -12,7 +12,7 @@ namespace PyStudio.Common.Helper
         /// <summary>
         /// 日志类别
         /// </summary>
-        public enum EmoLogStatus
+        public enum EmLogStatus
         {
             注册 = 0,
             登录 = 1,

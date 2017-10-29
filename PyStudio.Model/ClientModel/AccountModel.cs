@@ -35,4 +35,21 @@ namespace PyStudio.Model.ClientModel
         [Display(Prompt = "必须与密码相同")]
         public string ComfirmPwd { get; set; }
     }
+
+    public class PyLoginUser
+    {
+        [Display(Prompt = "邮箱/手机号/6-30字符")]
+        [RegularExpression(@"[^\s]{6,30}", ErrorMessage = "账号长度范围6-30字符。")]
+        public string UserName { get; set; }
+
+        [DataType(DataType.Password)]
+        [Display(Prompt = "密码长度范围6-20字符！")]
+        [RegularExpression(@"[^\s]{6,20}", ErrorMessage = "密码长度范围6-20字符。")]
+        public string UserPwd { get; set; }
+
+        /// <summary>
+        /// 回跳地址
+        /// </summary>
+        public string ReturnUrl { get; set; }
+    }
 }

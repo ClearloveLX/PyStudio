@@ -20,31 +20,44 @@ namespace PyStudio.Model.Models
 
                 entity.ToTable("Info_Area");
 
-                entity.Property(e => e.AreaId).ValueGeneratedNever();
+                entity.Property(e => e.AreaId)
+                    .HasColumnName("Area_Id")
+                    .ValueGeneratedNever();
 
                 entity.Property(e => e.AreaCode)
+                    .HasColumnName("Area_Code")
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
                 entity.Property(e => e.AreaCoord)
+                    .HasColumnName("Area_Coord")
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.Property(e => e.AreaLevel).HasDefaultValueSql("((0))");
+                entity.Property(e => e.AreaLevel)
+                    .HasColumnName("Area_Level")
+                    .HasDefaultValueSql("((0))");
 
-                entity.Property(e => e.AreaName).HasMaxLength(50);
+                entity.Property(e => e.AreaName)
+                    .HasColumnName("Area_Name")
+                    .HasMaxLength(50);
 
-                entity.Property(e => e.AreaNote).HasMaxLength(150);
+                entity.Property(e => e.AreaNote)
+                    .HasColumnName("Area_Note")
+                    .HasMaxLength(150);
 
                 entity.Property(e => e.AreaPathId)
+                    .HasColumnName("Area_PathId")
                     .HasMaxLength(100)
                     .IsUnicode(false);
 
                 entity.Property(e => e.AreaPid)
+                    .HasColumnName("Area_Pid")
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
                 entity.Property(e => e.AreaZipCode)
+                    .HasColumnName("Area_ZipCode")
                     .HasMaxLength(50)
                     .IsUnicode(false);
             });
@@ -55,9 +68,24 @@ namespace PyStudio.Model.Models
 
                 entity.ToTable("Info_Logger");
 
-                entity.Property(e => e.LoggerCreateTime).HasColumnType("datetime");
+                entity.Property(e => e.LoggerId).HasColumnName("Logger_Id");
 
-                entity.Property(e => e.LoggerDescription).HasColumnType("ntext");
+                entity.Property(e => e.LoggerCreateTime)
+                    .HasColumnName("Logger_CreateTime")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.LoggerDescription)
+                    .HasColumnName("Logger_Description")
+                    .HasColumnType("ntext");
+
+                entity.Property(e => e.LoggerIps)
+                    .HasColumnName("Logger_Ips")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.LoggerOperation).HasColumnName("Logger_Operation");
+
+                entity.Property(e => e.LoggerUserId).HasColumnName("Logger_UserId");
             });
 
             modelBuilder.Entity<InfoUser>(entity =>

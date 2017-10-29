@@ -15,7 +15,7 @@
                         setTimeout(function () { $(".fade-in-effect").addClass('in'); }, 1);
                     });
                 </script>
-                <form method="post" name="form_submit" id="login" class="login-form fade-in-effect validate">
+                <form method="post" id="register" class="login-form fade-in-effect validate">
                     <div class="login-header">
                         <a class="logo">
                             <img src="~/assets/images/logo-white-bg@2x.png" alt="" width="80" />
@@ -58,16 +58,17 @@
 @section FootScripts{
     <script type="text/javascript">
         $("#SiginUp").on('click', function () {
-            console.log($("form[id='login']").serialize());
+            console.log($("form[id='register']").serialize());
             $.ajax({
                 type: "POST",
-                url: "/api/MemberApi/Register",
-                data: $("form[name='form_submit']").serialize(),
+                url: "/api/AccountApi/Register",
+                data: $("form[id='register']").serialize(),
                 success: function (data) {
                     if (data.isOK == 0) {
                         openMsg(data.msg, false);
                     } else if (data.isOK == 1) {
                         openMsg(data.msg, true);
+                        location.href = "/Admin/Home/Index";
                     } else if (data.isOK == 2) {
                         openMsg(data.msg, false, 0);
                     } else {
