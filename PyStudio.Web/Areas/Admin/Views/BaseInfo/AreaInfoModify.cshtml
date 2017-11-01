@@ -74,7 +74,6 @@
 @section FootScripts{
     <script type="text/javascript">
         $("#ModifySave").on('click', function () {
-            console.log($("form[name='form_submit']").serialize());
             //Ajax提交时form表单验证失效，暂时用手工判断。
             if (isEmpty($("#AreaName").val())) {
                 openMsg("地区名称不能为空！");

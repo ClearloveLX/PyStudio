@@ -1,0 +1,106 @@
+@model PyStudio.Model.ClientModel.PyUserInfo
+@{
+    ViewData["Title"] = "修改资料";
+}
+
+<body class="lx-body-white">
+    <div class="col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> @ViewData["Title"]</h3>
+                        <hr />
+                        <form method="post" name="form_submit" class="form-horizontal" enctype="multipart/form-data">
+                            <input type="hidden" asp-for="UserId" />
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="field-1">用户名</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" asp-for="UserName" placeholder="请输入用户名" readonly>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="field-1">用户昵称</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" asp-for="UserNickName" placeholder="网站显示的用户昵称">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="field-1">邮箱绑定</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" asp-for="UserEmail" placeholder="用于接收信息的邮箱">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="field-1">联系方式</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" asp-for="UserTel" placeholder="您的联系方式">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="field-1">个人介绍</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" asp-for="UserIntroduce" placeholder="请输入您的介绍">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="field-1">生日</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" asp-for="UserBirthday" placeholder="请选择您的生日">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="field-1">所在地址</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" asp-for="UserAddress" placeholder="请输入所在地址">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="field-1">博客地址</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" asp-for="UserBlog" placeholder="您的博客地址">
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="col-sm-2"></div>
+                            <div class="col-sm-2 text-left form-group">
+                                <button type="button" id="ModifySava" class="btn btn-secondary">修改信息</button> <a href="~/Admin/Home/Index" class="btn btn-black">返回主页</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+@section FootScripts{
+    <script src="~/assets/js/laydate/laydate.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            laydate.render({
+                elem: '#UserBirthday'
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        $("#ModifySava").click(function () {
+            $.ajax({
+                type: "POST",
+                url: 'ModifyUserInfo',
+                data: $("form[name='form_submit']").serialize(),
+                success: function (data) {
+                    if (data.isOK == 0) {
+                        openMsg(data.msg, false);
+                    } else if (data.isOK == 1) {
+                        openMsg(data.msg, true);
+                    } else {
+                        openMsg("内部错误，请稍后...", false, 3);
+                    }
+                },
+                error: function () {
+                    openMsg("内部错误，请稍后...", false, 3);
+                }
+            });
+        });
+    </script>
+}

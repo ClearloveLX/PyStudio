@@ -56,10 +56,14 @@ namespace PyStudio.Web.Areas.Admin.Controllers
             this.MsgBox(returnUrl?? "/Admin/Home/Index", "returnUrl");
             return View();
         }
-
-        public IActionResult UpHeadPhoto()
+        /// <summary>
+        /// 注销
+        /// </summary>
+        /// <returns></returns>
+        public IActionResult LoginOut()
         {
-            return View();
+            HttpContext.Session.Remove(HttpContext.Session.SessionKey());
+            return Redirect("/Admin/Account/Login");
         }
     }
 }

@@ -33,4 +33,9 @@
     <Folder Include="wwwroot\CorePyStudio\ContentImage\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\assets\js\laydate\laydate.js" />
+    <None Include="wwwroot\assets\js\laydate\theme\default\font\iconfont.svg" />
+  </ItemGroup>
+
 </Project>

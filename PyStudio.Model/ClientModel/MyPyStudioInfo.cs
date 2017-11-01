@@ -113,8 +113,17 @@ namespace PyStudio.Model.ClientModel
     /// </summary>
     public class PyStudioPromptData
     {
+        /// <summary>
+        /// 状态
+        /// </summary>
         public int IsOK { get; set; }
+        /// <summary>
+        /// 消息
+        /// </summary>
         public string Msg { get; set; }
+        /// <summary>
+        /// 数据
+        /// </summary>
         public object Data { get; set; }
     }
 }

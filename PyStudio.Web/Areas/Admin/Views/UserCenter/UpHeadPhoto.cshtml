@@ -3,24 +3,31 @@
 @{
     ViewData["Title"] = "头像上传";
 }
-<div class="row">
-    <div class="col-md-12">
-        <h3><span class="glyphicon glyphicon-user" aria-hidden="true"></span> @ViewData["Title"]</h3>
-        <hr />
-        <form method="post" id="form_submit" action="~/Admin/UserCenter/UpHeadPhoto" enctype="multipart/form-data">
-            <input type="hidden" name="Id" value="@Model.UserId" />
-            <div class="form-group">
-                <img src="@Model.UserHeadPhoto" id="img_headPhoto" style="width: 140px; height: 140px;" required="required" class="img-thumbnail" />
+<body class="lx-body-white">
+    <div class="col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3><span class="glyphicon glyphicon-user" aria-hidden="true"></span> @ViewData["Title"]</h3>
+                        <hr />
+                        <form method="post" id="form_submit" enctype="multipart/form-data">
+                            <input type="hidden" name="Id" value="@Model.UserId" />
+                            <div class="form-group">
+                                <img src="@Model.UserHeadPhoto" id="img_headPhoto" style="width: 140px; height: 140px;" required="required" class="img-thumbnail" />
+                            </div>
+                            <div class="form-group">
+                                <input type="file" name="myHeadPhoto" class="form-control" placeholder="选择头像图片" accept="image/gif,image/jpeg,image/jpg,image/png" />
+                                <p class="help-block">选择你自定义的头像图片。</p>
+                            </div>
+                            <button type="button" id="Update" class="btn btn-secondary">保存头像</button> <a href="~/Admin/Home/Index" class="btn btn-black">返回主页</a>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <input type="file" name="myHeadPhoto" class="form-control" placeholder="选择头像图片" accept="image/gif,image/jpeg,image/jpg,image/png" />
-                <p class="help-block">选择你自定义的头像图片。</p>
-            </div>
-            <button type="button" id="Update" class="btn btn-default">保 存</button> <a href="/UserCenter/AccountSettings" class="btn btn-default">返 回</a>
-            <span id="msgbox" style="color:red">@ViewData["msgbox"]</span>
-        </form>
+        </div>
     </div>
-</div>
+</body>
 @section FootScripts{
     <script src="~/assets/js/MyAjaxForm.js"></script>
     <script type="text/javascript">

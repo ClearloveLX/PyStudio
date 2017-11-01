@@ -22,7 +22,7 @@ var pyStudio = function () {
                     var _userInfo = data.data;
                     _html = '<img src="' + _userInfo.userHeadPhoto +'" alt="user-image" class="img-circle img-inline userpic-32" width="28" />\
                                 <span>\
-                                    '+ _userInfo.userName +'\
+                                    '+ _userInfo.userNickName +'\
                                     <i class="fa-angle-down"></i>\
                                 </span>';
                 }

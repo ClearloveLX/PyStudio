@@ -58,11 +58,11 @@
                 url: "/api/AccountApi/Login",
                 data: $("form[id='login']").serialize(),
                 success: function (data) {
+                    console.log(data);
                     if (data.isOK == 0) {
                         openMsg(data.msg, false);
                     } else if (data.isOK == 1) {
                         openMsg(data.msg, true);
-                        location.href = "/Admin/Home/Index";
                     } else if (data.isOK == 2) {
                         openMsg(data.msg, false, 0);
                     } else {
