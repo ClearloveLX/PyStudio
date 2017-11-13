@@ -139,7 +139,7 @@ namespace PyStudio.Web.Extends
         /// <param name="first">字符前缀</param>
         /// <param name="supplement">填充字符</param>
         /// <returns>如果为0不返回为空，如果为1以上开始运算</returns>
-        public static string CharacterPrefix(this int Num, string first = "├", string supplement = "──")
+        public static string CharacterPrefix(this int Num, string first = "├", string supplement = "─")
         {
             string result = string.Empty;
             var ment = string.Empty;

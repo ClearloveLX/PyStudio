@@ -45,7 +45,7 @@ namespace PyStudio.Web.Areas.Admin.Controllers
             {
                 if (string.IsNullOrWhiteSpace(returnUrl))
                 {
-                    return Redirect("/Admin/Home/Index");
+                    return RedirectToAction(nameof(HomeController.Index), "Home", new { Area = "Admin" });
                 }
                 else
                 {
@@ -53,7 +53,7 @@ namespace PyStudio.Web.Areas.Admin.Controllers
                 }
                 return View();
             }
-            this.MsgBox(returnUrl?? "/Admin/Home/Index", "returnUrl");
+            this.MsgBox(returnUrl ?? "/Admin/Home/Index", "returnUrl");
             return View();
         }
         /// <summary>
@@ -63,7 +63,7 @@ namespace PyStudio.Web.Areas.Admin.Controllers
         public IActionResult LoginOut()
         {
             HttpContext.Session.Remove(HttpContext.Session.SessionKey());
-            return Redirect("/Admin/Account/Login");
+            return RedirectToAction(nameof(AccountController.Login), "Account", new { Area = "Admin" });
         }
     }
 }

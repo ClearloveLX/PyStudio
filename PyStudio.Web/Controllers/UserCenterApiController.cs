@@ -10,6 +10,8 @@ using PyStudio.Model.ClientModel;
 using System.IO;
 using Microsoft.Extensions.Options;
 using static PyStudio.Common.Helper.EnumHelper;
+using Microsoft.AspNetCore.Hosting;
+using PyStudio.Model.Models.Sys;
 
 namespace PyStudio.Web.Controllers
 {
@@ -18,11 +20,13 @@ namespace PyStudio.Web.Controllers
     {
         private readonly PyStudioDBContext _context;
         private readonly PySelfSetting _pySelfSetting;
+        private readonly IHostingEnvironment _hostingEnvironment;
 
-        public UserCenterApiController(PyStudioDBContext context, IOptions<PySelfSetting> pySelfSetting)
+        public UserCenterApiController(PyStudioDBContext context, IOptions<PySelfSetting> pySelfSetting, IHostingEnvironment hostingEnvironment)
         {
             _context = context;
             _pySelfSetting = pySelfSetting.Value;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         [HttpPost]
@@ -45,13 +49,13 @@ namespace PyStudio.Web.Controllers
             }
             var fileExtend = file.FileName.Substring(file.FileName.LastIndexOf('.'));
             var fileNewName = $"{DateTime.Now.ToString("yyyyMMddhhmmssfff")}{fileExtend}";
-            var path = Path.Combine(_pySelfSetting.UpHeadPhotoPath, fileNewName);
+            var path = Path.Combine($"{_hostingEnvironment.WebRootPath}/{_pySelfSetting.HeadPhotoPath}", fileNewName);
             using (var stream = new FileStream(path, FileMode.OpenOrCreate, FileAccess.ReadWrite))
             {
                 await file.CopyToAsync(stream);
             }
 
-            var viewPath = $"{_pySelfSetting.ViewHeadPhotoPath}/{fileNewName}";
+            var viewPath = $"{_pySelfSetting.HeadPhotoPath}/{fileNewName}";
             var user = _context.InfoUser.Where(b => b.UserId == _MyUserInfo.UserId).SingleOrDefault();
 
             if (user == null)
@@ -69,7 +73,7 @@ namespace PyStudio.Web.Controllers
                 HttpContext.Session.Set<PyUserInfo>(HttpContext.Session.SessionKey(), _MyUserInfo);
                 data.Msg = "上传成功！";
                 data.IsOK = 1;
-                _context.InfoLogger.Add(new InfoLogger
+                _context.SysLogger.Add(new SysLogger
                 {
                     LoggerUserId = _MyUserInfo.UserId,
                     LoggerDescription = $"用户{_MyUserInfo.UserName}{EmLogStatus.修改}头像",

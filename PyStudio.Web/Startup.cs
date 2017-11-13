@@ -48,7 +48,7 @@ namespace PyStudio.Web
             });
 
             //MemoryCaChe支持
-            services.AddDistributedMemoryCache();
+            //services.AddDistributedMemoryCache();
             services.AddMemoryCache();
 
             //Session支持
@@ -81,12 +81,14 @@ namespace PyStudio.Web
 
             app.UseMvc(routes =>
             {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+               
                 routes.MapRoute(
                     name: "areas",
                     template: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
+                routes.MapRoute(
+                   name: "default",
+                   template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

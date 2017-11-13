@@ -9,6 +9,8 @@ using PyStudio.Model.ClientModel;
 using PyStudio.Web.Extends;
 using static PyStudio.Common.Helper.EnumHelper;
 using Microsoft.EntityFrameworkCore;
+using PyStudio.Model.Models.Account;
+using PyStudio.Model.Models.Sys;
 
 namespace PyStudio.Web.Controllers
 {
@@ -84,7 +86,7 @@ namespace PyStudio.Web.Controllers
                     HttpContext.Session.Set<PyUserInfo>(HttpContext.Session.SessionKey(), _pyUserInfo);
 
                     #region 操作日志记录
-                    _context.InfoLogger.Add(new InfoLogger
+                    _context.SysLogger.Add(new SysLogger
                     {
                         LoggerUserId = _pyUserInfo.UserId,
                         LoggerDescription = $"用户{_pyUserInfo.UserName} {EmLogStatus.注册} ",
@@ -93,7 +95,7 @@ namespace PyStudio.Web.Controllers
                         LoggerIps = _pyUserInfo.UserIps
                     });
 
-                    _context.InfoLogger.Add(new InfoLogger
+                    _context.SysLogger.Add(new SysLogger
                     {
                         LoggerUserId = _pyUserInfo.UserId,
                         LoggerDescription = $"用户{_pyUserInfo.UserName} {EmLogStatus.登录} ",
@@ -172,7 +174,7 @@ namespace PyStudio.Web.Controllers
                 };
                 HttpContext.Session.Set<PyUserInfo>(HttpContext.Session.SessionKey(), _pyUserInfo);
 
-                _context.InfoLogger.Add(new InfoLogger
+                _context.SysLogger.Add(new SysLogger
                 {
                     LoggerUserId = _pyUserInfo.UserId,
                     LoggerDescription = $"用户{_pyUserInfo.UserName}{EmLogStatus.登录} ",

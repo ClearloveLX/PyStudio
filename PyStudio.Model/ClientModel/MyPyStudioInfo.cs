@@ -17,7 +17,7 @@ namespace PyStudio.Model.ClientModel
         /// <summary>
         /// 头像图片访问地址 
         /// </summary>
-        public string ViewHeadPhotoPath { get; set; }
+        public string HeadPhotoPath { get; set; }
 
         /// <summary>
         /// 内容图片保存地址 
@@ -27,7 +27,17 @@ namespace PyStudio.Model.ClientModel
         /// <summary>
         /// 查看内容图片保存地址 
         /// </summary>
-        public string ViewContentPhotoPath { get; set; }
+        public string ContentPhotoPath { get; set; }
+
+        /// <summary>
+        /// Excel导出位置
+        /// </summary>
+        public string FileExcelExportPath { get; set; }
+
+        /// <summary>
+        /// Excel导入位置
+        /// </summary>
+        public string FileExcelImportPath { get; set; }
 
         /// <summary>
         /// 邮件模板文件夹路径 

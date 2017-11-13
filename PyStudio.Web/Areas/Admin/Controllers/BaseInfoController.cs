@@ -8,8 +8,15 @@ using PyStudio.Model.ClientModel;
 using PyStudio.Common;
 using PyStudio.Web.Extends;
 using Microsoft.Extensions.Options;
-using Microsoft.EntityFrameworkCore;
-using System.Threading;
+using PyStudio.Model.Repositories;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
+using OfficeOpenXml;
+using Microsoft.AspNetCore.Http;
+using PyStudio.Model.Models.BaseInfo;
+using PyStudio.Model.Models.Sys;
+using static PyStudio.Common.Helper.EnumHelper;
 
 namespace PyStudio.Web.Areas.Admin.Controllers
 {
@@ -18,12 +25,21 @@ namespace PyStudio.Web.Areas.Admin.Controllers
     {
         private readonly PyStudioDBContext _context;
         private readonly PySelfSetting _pySelfSetting;
+        private readonly IMemoryCache _cache;
         private readonly DataClass _dataClass = new DataClass();
+        private readonly IRepository<InfoArea> _repository;
+        private readonly IRepository<InfoEi> _repositoryEi;
+        private readonly IHostingEnvironment _hostingEnvironment;
+        private const string XlsxContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
-        public BaseInfoController(PyStudioDBContext context, IOptions<PySelfSetting> pySelfSetting)
+        public BaseInfoController(PyStudioDBContext context, IOptions<PySelfSetting> pySelfSetting, IMemoryCache cache, IHostingEnvironment hostingEnvironment)
         {
             _context = context;
             _pySelfSetting = pySelfSetting.Value;
+            _cache = cache;
+            _repository = new Repository<InfoArea>(_context);
+            _repositoryEi = new Repository<InfoEi>(_context);
+            _hostingEnvironment = hostingEnvironment;
         }
 
         #region 地区/区域
@@ -32,10 +48,25 @@ namespace PyStudio.Web.Areas.Admin.Controllers
         /// 地区列表
         /// </summary>
         /// <returns></returns>
-        public IActionResult AreaInfoList()
+        public IActionResult AreaInfoList(string condition)
         {
-            var _listItem = _context.InfoArea.OrderBy(b => b.AreaCode).ToList();
-            return View(_listItem);
+            string key = "_GetAreaInfo";
+            List<InfoArea> objModel = new List<InfoArea>();
+
+            if (!_cache.TryGetValue(key, out objModel))//缓存三十秒，防止频繁刷新
+            {
+                objModel = _repository.GetList(orderBy: s => s.OrderBy(c => c.AreaCode)).ToList();
+                var cacheEntryOptions = new MemoryCacheEntryOptions()
+                                        .SetSlidingExpiration(TimeSpan.FromSeconds(30));
+                _cache.Set(key, objModel, cacheEntryOptions);
+            }
+
+            if (!string.IsNullOrWhiteSpace(condition))
+            {
+                objModel = objModel.Where(m => m.AreaName.Contains(condition)).ToList();
+            }
+
+            return View(objModel);
         }
 
         /// <summary>
@@ -158,7 +189,15 @@ namespace PyStudio.Web.Areas.Admin.Controllers
                 if (result > 0)
                 {
                     this.MsgBox("提交成功！");
-                    _context.InfoLogger.Add(new InfoLogger {});
+                    _context.SysLogger.Add(new SysLogger
+                    {
+                        LoggerCreateTime = DateTime.Now,
+                        LoggerDescription = $"{EmLogStatus.增加}地区{infoArea.AreaName}信息",
+                        LoggerIps = _MyUserInfo.UserIps,
+                        LoggerOperation = (int)EmLogStatus.增加,
+                        LoggerUserId = _MyUserInfo.UserId
+                    });
+                    await _context.SaveChangesAsync();
                     Response.Redirect($"AreaInfoCreate?tag=add&level={_areaInfo.AreaLevel}&id={_areaInfo.AreaId}");
                 }
                 else
@@ -239,6 +278,15 @@ namespace PyStudio.Web.Areas.Admin.Controllers
                     {
                         data.IsOK = 1;
                         data.Msg = "修改成功";
+                        _context.SysLogger.Add(new SysLogger
+                        {
+                            LoggerCreateTime = DateTime.Now,
+                            LoggerDescription = $"{EmLogStatus.修改}地区{infoArea.AreaName}信息",
+                            LoggerIps = _MyUserInfo.UserIps,
+                            LoggerOperation = (int)EmLogStatus.修改,
+                            LoggerUserId = _MyUserInfo.UserId
+                        });
+                        await _context.SaveChangesAsync();
                     }
                     else
                     {
@@ -278,6 +326,20 @@ namespace PyStudio.Web.Areas.Admin.Controllers
                 {
                     data.IsOK = 1;
                     data.Msg = $"删除成功,共删除{result}条数据！";
+                    string resultName = string.Empty;
+                    for (int i = 0; i < infoArea.Count; i++)
+                    {
+                        resultName += infoArea[i].AreaName + ",";
+                    }
+                    _context.SysLogger.Add(new SysLogger
+                    {
+                        LoggerCreateTime = DateTime.Now,
+                        LoggerDescription = $"{EmLogStatus.删除}地区{resultName.TrimEnd(',')}",
+                        LoggerIps = _MyUserInfo.UserIps,
+                        LoggerOperation = (int)EmLogStatus.删除,
+                        LoggerUserId = _MyUserInfo.UserId
+                    });
+                    await _context.SaveChangesAsync();
                 }
                 else
                 {
@@ -333,6 +395,91 @@ namespace PyStudio.Web.Areas.Admin.Controllers
             }
             return View(_areaInfo);
         }
+        #endregion
+
+        #region 导入导出
+
+        public IActionResult ImportAndExportIndex()
+        {
+            return View(_repositoryEi.GetList());
+        }
+
+        public IActionResult Export()
+        {
+            string filePath = $"{_hostingEnvironment.WebRootPath}/{_pySelfSetting.FileExcelExportPath}";
+            string fileName = $"{Guid.NewGuid()}.xlsx";
+            FileInfo file = new FileInfo(Path.Combine(filePath, fileName));
+            using (ExcelPackage package = new ExcelPackage(file))
+            {
+                //添加工作表
+                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("PyStudio导入模版");
+                //标题
+                worksheet.Cells[1, 1].Value = "Col1";
+                worksheet.Cells[1, 2].Value = "Col2";
+                worksheet.Cells[1, 3].Value = "Col3";
+                worksheet.Cells[1, 4].Value = "Col4";
+                //添加内容
+                worksheet.Cells["A2"].Value = 315979355;
+                worksheet.Cells["B2"].Value = "暴龙";
+                worksheet.Cells["C2"].Value = "暴龙";
+                worksheet.Cells["D2"].Value = "315979355@qq.com";
+                worksheet.Cells["D2"].Style.Font.Bold = true;
+
+                worksheet.Cells["A3"].Value = 274351622;
+                worksheet.Cells["B3"].Value = "Sinory";
+                worksheet.Cells["C3"].Value = "猩猩";
+                worksheet.Cells["D3"].Value = "kjasw2000@tom.com";
+                worksheet.Cells["D3"].Style.Font.Bold = true;
+
+                worksheet.Cells["A4"].Value = 444902302;
+                worksheet.Cells["B4"].Value = "Bj";
+                worksheet.Cells["C4"].Value = "奶皮";
+                worksheet.Cells["D4"].Value = "None'";
+                worksheet.Cells["D4"].Style.Font.Bold = true;
+
+                package.Save();
+            }
+            return File($"{_pySelfSetting.FileExcelExportPath}/{fileName}", XlsxContentType);
+        }
+
+        [HttpPost]
+        public IActionResult Import(IFormFile excelFile)
+        {
+            if (excelFile == null)
+            {
+                return View("ImportAndExportIndex", _repositoryEi.GetList());
+            }
+            string filePath = $"{_hostingEnvironment.WebRootPath}/{_pySelfSetting.FileExcelImportPath}";
+            string fileName = $"{Guid.NewGuid()}.xlsx";
+            FileInfo file = new FileInfo(Path.Combine(filePath, fileName));
+            using (FileStream fs = new FileStream(file.ToString(), FileMode.Create))
+            {
+                excelFile.CopyTo(fs);
+                fs.Flush();
+            }
+            using (ExcelPackage package = new ExcelPackage(file))
+            {
+                ExcelWorksheet worksheet = package.Workbook.Worksheets[1];
+                int rowCount = worksheet.Dimension.Rows;
+                if (rowCount > 0)
+                {
+                    List<InfoEi> list = new List<InfoEi>();
+                    for (int i = 1; i < rowCount; i++)
+                    {
+                        list.Add(new InfoEi
+                        {
+                            Eicol1 = worksheet.Cells[i + 1, 1].Value.ToString(),
+                            Eicol2 = worksheet.Cells[i + 1, 2].Value.ToString(),
+                            Eicol3 = worksheet.Cells[i + 1, 3].Value.ToString(),
+                            Eicol4 = worksheet.Cells[i + 1, 4].Value.ToString(),
+                        });
+                    }
+                    PySqlHelper.BulkInsert(_pySelfSetting.DbLink, "InfoEI", list);
+                }
+            }
+            return View("ImportAndExportIndex", _repositoryEi.GetList());
+        }
+
         #endregion
     }
 }

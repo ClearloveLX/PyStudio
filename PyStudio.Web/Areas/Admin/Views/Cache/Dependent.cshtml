@@ -1,0 +1,15 @@
+@model PyStudio.Web.Areas.Admin.Models.DependentViewModel
+
+<div>
+    <h2>Actions</h2>
+    <ul>
+        <li><a asp-area="Admin" asp-controller="Cache" asp-action="CreateDependentEntries">CreateDependentEntries</a></li>
+        <li><a asp-area="Admin" asp-controller="Cache" asp-action="GetDependentEntries">GetDependentEntries</a></li>
+        <li><a asp-area="Admin" asp-controller="Cache" asp-action="RemoveChildEntry">RemoveChildEntry</a></li>
+    </ul>
+</div>
+
+<h3>Current Time: @DateTime.Now.TimeOfDay.ToString()</h3>
+<h3>Parent Cached Time: @(Model?.ParentCachedTime == null ? "No cached entry found" : Model.ParentCachedTime.Value.TimeOfDay.ToString())</h3>
+<h3>Child Cached Time: @(Model?.ChildCachedTime == null ? "No cached entry found" : Model.ChildCachedTime.Value.TimeOfDay.ToString())</h3>
+<h3>@(Model?.Message)</h3>

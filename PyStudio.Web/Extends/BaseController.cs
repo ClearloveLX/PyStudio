@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Web;
+using PyStudio.Web.Areas.Admin.Controllers;
 
 namespace PyStudio.Web.Extends
 {
@@ -22,7 +23,7 @@ namespace PyStudio.Web.Extends
             _MyUserInfo = context.HttpContext.Session.Get<PyUserInfo>(context.HttpContext.Session.SessionKey());
             if (_MyUserInfo == null)
             {
-                context.Result = Redirect("/Admin/Account/Login?ReturnUrl=" + HttpUtility.UrlEncode(context.HttpContext.Request.Path));
+                context.Result = new RedirectToActionResult(nameof(AccountController.Login), "Account", new { Area = "Admin", ReturnUrl = context.HttpContext.Request.Path });
             }
             ViewData["MyUserInfo"] = _MyUserInfo;
             base.OnActionExecuting(context);

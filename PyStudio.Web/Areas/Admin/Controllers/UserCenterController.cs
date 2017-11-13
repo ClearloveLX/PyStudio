@@ -9,6 +9,7 @@ using PyStudio.Model.ClientModel;
 using Microsoft.Extensions.Options;
 using System.IO;
 using static PyStudio.Common.Helper.EnumHelper;
+using PyStudio.Model.Models.Sys;
 
 namespace PyStudio.Web.Areas.Admin.Controllers
 {
@@ -80,7 +81,7 @@ namespace PyStudio.Web.Areas.Admin.Controllers
 
                         data.IsOK = 1;
                         data.Msg = "修改成功";
-                        _context.InfoLogger.Add(new InfoLogger
+                        _context.SysLogger.Add(new SysLogger
                         {
                             LoggerUserId = _MyUserInfo.UserId,
                             LoggerDescription = $"用户{_MyUserInfo.UserName}{EmLogStatus.修改}个人信息",

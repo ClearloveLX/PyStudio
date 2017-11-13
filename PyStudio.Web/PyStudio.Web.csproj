@@ -12,8 +12,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="EPPlus.Core" Version="1.5.2" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="2.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.0" />
   </ItemGroup>
 
@@ -28,7 +30,8 @@
 
   <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
-    <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="wwwroot\CorePyStudio\FilePath\ExcelImport\" />
+    <Folder Include="wwwroot\CorePyStudio\FilePath\ExcelExport\" />
     <Folder Include="wwwroot\CorePyStudio\HeadImage\" />
     <Folder Include="wwwroot\CorePyStudio\ContentImage\" />
   </ItemGroup>

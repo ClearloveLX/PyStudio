@@ -1,0 +1,65 @@
+﻿@model IEnumerable<PyStudio.Model.Models.InfoLogger>
+
+@{
+    ViewData["Title"] = "PyTestCache";
+}
+
+<h2>PyTestCache</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.LoggerId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LoggerUserId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LoggerDescription)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LoggerOperation)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LoggerCreateTime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LoggerIps)
+                </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.LoggerId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LoggerUserId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LoggerDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LoggerOperation)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LoggerCreateTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LoggerIps)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
