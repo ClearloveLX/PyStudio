@@ -75,7 +75,7 @@ namespace PyStudio.Web.Controllers
                 data.IsOK = 1;
                 _context.SysLogger.Add(new SysLogger
                 {
-                    LoggerUserId = _MyUserInfo.UserId,
+                    LoggerUser = _MyUserInfo.UserId,
                     LoggerDescription = $"用户{_MyUserInfo.UserName}{EmLogStatus.修改}头像",
                     LoggerOperation = (int)EmLogStatus.修改,
                     LoggerCreateTime = DateTime.Now,

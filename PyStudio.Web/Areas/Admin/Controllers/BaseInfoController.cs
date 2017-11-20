@@ -195,7 +195,7 @@ namespace PyStudio.Web.Areas.Admin.Controllers
                         LoggerDescription = $"{EmLogStatus.增加}地区{infoArea.AreaName}信息",
                         LoggerIps = _MyUserInfo.UserIps,
                         LoggerOperation = (int)EmLogStatus.增加,
-                        LoggerUserId = _MyUserInfo.UserId
+                        LoggerUser = _MyUserInfo.UserId
                     });
                     await _context.SaveChangesAsync();
                     Response.Redirect($"AreaInfoCreate?tag=add&level={_areaInfo.AreaLevel}&id={_areaInfo.AreaId}");
@@ -284,7 +284,7 @@ namespace PyStudio.Web.Areas.Admin.Controllers
                             LoggerDescription = $"{EmLogStatus.修改}地区{infoArea.AreaName}信息",
                             LoggerIps = _MyUserInfo.UserIps,
                             LoggerOperation = (int)EmLogStatus.修改,
-                            LoggerUserId = _MyUserInfo.UserId
+                            LoggerUser = _MyUserInfo.UserId
                         });
                         await _context.SaveChangesAsync();
                     }
@@ -337,7 +337,7 @@ namespace PyStudio.Web.Areas.Admin.Controllers
                         LoggerDescription = $"{EmLogStatus.删除}地区{resultName.TrimEnd(',')}",
                         LoggerIps = _MyUserInfo.UserIps,
                         LoggerOperation = (int)EmLogStatus.删除,
-                        LoggerUserId = _MyUserInfo.UserId
+                        LoggerUser = _MyUserInfo.UserId
                     });
                     await _context.SaveChangesAsync();
                 }
@@ -404,6 +404,10 @@ namespace PyStudio.Web.Areas.Admin.Controllers
             return View(_repositoryEi.GetList());
         }
 
+        /// <summary>
+        /// 导出
+        /// </summary>
+        /// <returns></returns>
         public IActionResult Export()
         {
             string filePath = $"{_hostingEnvironment.WebRootPath}/{_pySelfSetting.FileExcelExportPath}";
@@ -442,6 +446,11 @@ namespace PyStudio.Web.Areas.Admin.Controllers
             return File($"{_pySelfSetting.FileExcelExportPath}/{fileName}", XlsxContentType);
         }
 
+        /// <summary>
+        /// 导入
+        /// </summary>
+        /// <param name="excelFile"></param>
+        /// <returns></returns>
         [HttpPost]
         public IActionResult Import(IFormFile excelFile)
         {
@@ -477,7 +486,7 @@ namespace PyStudio.Web.Areas.Admin.Controllers
                     PySqlHelper.BulkInsert(_pySelfSetting.DbLink, "InfoEI", list);
                 }
             }
-            return View("ImportAndExportIndex", _repositoryEi.GetList());
+            return RedirectToAction("ImportAndExportIndex");
         }
 
         #endregion

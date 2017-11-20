@@ -144,6 +144,29 @@ namespace PyStudio.Model.Migrations
                     b.ToTable("InfoEi");
                 });
 
+            modelBuilder.Entity("PyStudio.Model.Models.SmallTools.InfoMessageBoard", b =>
+                {
+                    b.Property<int>("MessageBoardId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("MessageBoardContent")
+                        .HasColumnType("ntext");
+
+                    b.Property<DateTime>("MessageBoardCreateTime")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("MessageBoardIp")
+                        .HasMaxLength(50)
+                        .IsUnicode(false);
+
+                    b.Property<string>("MessageBoardUser")
+                        .HasMaxLength(100);
+
+                    b.HasKey("MessageBoardId");
+
+                    b.ToTable("InfoMessageBoard");
+                });
+
             modelBuilder.Entity("PyStudio.Model.Models.Sys.SysLogger", b =>
                 {
                     b.Property<int>("LoggerId")
@@ -161,11 +184,21 @@ namespace PyStudio.Model.Migrations
 
                     b.Property<int?>("LoggerOperation");
 
-                    b.Property<int?>("LoggerUserId");
+                    b.Property<int?>("LoggerUser");
 
                     b.HasKey("LoggerId");
 
+                    b.HasIndex("LoggerUser");
+
                     b.ToTable("SysLogger");
+                });
+
+            modelBuilder.Entity("PyStudio.Model.Models.Sys.SysLogger", b =>
+                {
+                    b.HasOne("PyStudio.Model.Models.Account.InfoUser", "User")
+                        .WithMany("SysLogger")
+                        .HasForeignKey("LoggerUser")
+                        .HasConstraintName("FK_SysLogger_InfoUser");
                 });
 #pragma warning restore 612, 618
         }

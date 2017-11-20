@@ -83,7 +83,7 @@ namespace PyStudio.Web.Areas.Admin.Controllers
                         data.Msg = "修改成功";
                         _context.SysLogger.Add(new SysLogger
                         {
-                            LoggerUserId = _MyUserInfo.UserId,
+                            LoggerUser = _MyUserInfo.UserId,
                             LoggerDescription = $"用户{_MyUserInfo.UserName}{EmLogStatus.修改}个人信息",
                             LoggerOperation = (int)EmLogStatus.修改,
                             LoggerCreateTime = DateTime.Now,

@@ -1,0 +1,197 @@
+@using PyStudio.Model.Models.SmallApp
+
+@{
+    ViewData["Title"] = "留言板";
+}
+<style type="text/css">
+    .divContent {
+        margin: 10px auto;
+        margin-top: 55px;
+    }
+
+    .blockContent {
+        margin: 5px;
+        padding: 10px;
+        border: 1px dashed #808080
+    }
+
+    .button {
+        margin: 5px;
+        padding: 10px;
+        border: 1px dashed #808080;
+        font-size: 18px;
+    }
+
+    .pc {
+        display: none;
+    }
+
+    .hiLabel {
+        display: none;
+    }
+    /*PC*/
+    @@media (min-width: 1025px) {
+        .divContent {
+            margin: 10px auto;
+            margin-top: 55px;
+            width: 700px
+        }
+
+        .pc {
+            display: initial;
+        }
+
+        .nopc {
+            display: none;
+        }
+
+        .hiLabel {
+            display: initial;
+        }
+    }
+
+    .spinner .spinner-icon {
+        display: none;
+    }
+</style>
+<div class="page-title">
+    <div class="breadcrumb-env">
+        <ol class="breadcrumb bc-1">
+            <li>
+                <a href="dashboard-1.html"><i class="fa-home"></i>主页</a>
+            </li>
+            <li>
+                <a>小程序</a>
+            </li>
+            <li class="active">
+                <strong>留言板功能</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="col-md-12">
+    <div class="panel panel-default">
+        <div class="panel-body panel-border">
+            <div class="divContent">
+                <div style="color:red;font-size:23px;font-weight:700;">
+                    ASP.NET Core2.0 正式启动。Coding Changes World！！！
+                </div>
+                
+                <div style="margin-top:30px">
+                    <div class="pc">
+                        <form class="messgform">
+                            留言：<input type="text" name="msg" />
+                            大名：<input type="text" name="userName" />
+                            <input class="btnSave" type="button" value="弹一个~" />
+                        </form>
+                    </div>
+                    <div class="nopc" style="border:1px dashed #0094ff;padding:10px;margin:5px">
+                        <form>
+                            <div>留言：<input type="text" name="msg" /></div>
+                            <div style="margin-top:5px;margin-bottom:5px">大名：<input type="text" name="userName" /></div>
+                            <div><input class="btnSave" type="button" value="弹一个~" /></div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="messgContent" style="margin-top:30px">
+                    @{
+                        var list = ViewBag.Messages as List<InfoMessageBoard>;
+                        foreach (var item in list)
+                        {
+                            <div class="blockContent">
+                                <div>哪里：@item.MessageBoardIp</div>
+                                <div style="margin-top:3px">何人：@item.MessageBoardUser</div>
+                                <div style="margin-top:3px">说点：@item.MessageBoardContent</div>
+                                <div style="margin-top:3px">何时：@item.MessageBoardCreateTime.ToString("yyyy-MM-dd HH:mm:ss")</div>
+                            </div>
+                        }
+                        if (list.Count >= 30)
+                        {
+                            <div class="button">加载中.....</div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/lib/moment/moment.js"></script>
+<link href="~/lib/nprogress/nprogress.css" rel="stylesheet" />
+<script src="~/lib/nprogress/nprogress.js"></script>
+
+<script type="text/javascript">
+    var HTMLUtil = {
+        /*1.用浏览器内部转换器实现html转码*/
+        htmlEncode: function (html) {
+            //1.首先动态创建一个容器标签元素，如DIV
+            var temp = document.createElement("div");
+            //2.然后将要转换的字符串设置为这个元素的innerText(ie支持)或者textContent(火狐，google支持)
+            (temp.textContent != undefined) ? (temp.textContent = html) : (temp.innerText = html);
+            //3.最后返回这个元素的innerHTML，即得到经过HTML编码转换的字符串了
+            var output = temp.innerHTML;
+            temp = null;
+            return output;
+        },
+        /*2.用浏览器内部转换器实现html解码*/
+        htmlDecode: function (text) {
+            //1.首先动态创建一个容器标签元素，如DIV
+            var temp = document.createElement("div");
+            //2.然后将要转换的字符串设置为这个元素的innerHTML(ie，火狐，google都支持)
+            temp.innerHTML = text;
+            //3.最后返回这个元素的innerText(ie支持)或者textContent(火狐，google支持)，即得到经过HTML解码的字符串了。
+            var output = temp.innerText || temp.textContent;
+            temp = null;
+            return output;
+        }
+    };
+
+    $(".btnSave").click(function () {
+        var _this = this;
+        $(_this).prop("disabled", true);
+        $.ajax({
+            url: "/Admin/SmallApp/RecordMessageBoard",
+            type: "post",
+            data: $(_this).closest("form").serialize(),
+            success: function (data) {
+                location.reload(true);
+            }
+        });
+    });
+    var index = 1;
+    var cont = 30;
+    NProgress.configure({ ease: 'ease', speed: 400 });
+    NProgress.configure({ minimum: 0.4 });
+    NProgress.configure({ trickleRate: 0.13, trickleSpeed: 500 });
+
+    window.onscroll = function () {
+        if ($(window).scrollTop() == $(document).height() - $(window).height() && $(".button").length) {
+            NProgress.start();
+            setTimeout(function () {
+                $.ajax({
+                    url: "/Admin/SmallApp/GetMessageBoardData",
+                    data: { "page": cont * index },
+                    complete: function () {
+                        NProgress.done();
+                    },
+                    success: function (data) {
+                        var tempHTML = "";
+                        for (var i = 0; i < data.length; i++) {
+                            tempHTML += '<div class="blockContent">\
+                                            <div>哪里：'+ data[i].messageBoardIp + '</div>\
+                                            <div style="margin-top:3px">何人：'+ HTMLUtil.htmlDecode(data[i].messageBoardUser) + '</div>\
+                                            <div style="margin-top:3px">说点：'+ HTMLUtil.htmlDecode(data[i].messageBoardContent) + '</div>\
+                                            <div style="margin-top:3px">何时：'+ moment(data[i].messageBoardCreateTime).format("YYYY-MM-DD HH:mm:ss") + '</div>\
+                                        </div>';
+                        }
+                        index++;
+                        $(".button").before(tempHTML);
+                        if (data.length < 30) {
+                            $(".button").remove();
+                        }
+                    }
+                });
+            }, 700);
+        }
+    }
+</script>

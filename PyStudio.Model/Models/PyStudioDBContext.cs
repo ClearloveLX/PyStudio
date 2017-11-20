@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using PyStudio.Model.Models.BaseInfo;
 using PyStudio.Model.Models.Sys;
 using PyStudio.Model.Models.Account;
+using PyStudio.Model.Models.SmallApp;
 
 namespace PyStudio.Model.Models
 {
@@ -13,12 +14,16 @@ namespace PyStudio.Model.Models
         public virtual DbSet<InfoEi> InfoEi { get; set; }
         public virtual DbSet<SysLogger> SysLogger { get; set; }
         public virtual DbSet<InfoUser> InfoUser { get; set; }
+        public virtual DbSet<InfoMessageBoard> InfoMessageBoard { get; set; }
 
         public PyStudioDBContext(DbContextOptions<PyStudioDBContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //区域表
+            #region BaseInfo
+
+            #region InfoArea
+
             modelBuilder.Entity<InfoArea>(entity =>
             {
                 entity.HasKey(e => e.AreaId);
@@ -55,7 +60,41 @@ namespace PyStudio.Model.Models
                     .HasMaxLength(50)
                     .IsUnicode(false);
             });
-            //用户表
+
+            #endregion
+
+            #region InfoEi
+
+            modelBuilder.Entity<InfoEi>(entity =>
+            {
+                entity.HasKey(e => e.Eicol1);
+
+                entity.Property(e => e.Eicol1)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.Eicol2)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Eicol3)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Eicol4)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+            });
+
+            #endregion
+
+            #endregion
+
+            #region Account
+
+            #region InfoUser
+
             modelBuilder.Entity<InfoUser>(entity =>
             {
                 entity.HasKey(e => e.UserId);
@@ -110,29 +149,15 @@ namespace PyStudio.Model.Models
                     .HasMaxLength(50)
                     .IsUnicode(false);
             });
-            //Excel导入测试表
-            modelBuilder.Entity<InfoEi>(entity =>
-            {
-                entity.HasKey(e => e.Eicol1);
 
-                entity.Property(e => e.Eicol1)
-                    .HasMaxLength(50)
-                    .IsUnicode(false)
-                    .ValueGeneratedNever();
+            #endregion
 
-                entity.Property(e => e.Eicol2)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+            #endregion
 
-                entity.Property(e => e.Eicol3)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+            #region Sys
 
-                entity.Property(e => e.Eicol4)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-            });
-            //日志记录表
+            #region SysLogger
+
             modelBuilder.Entity<SysLogger>(entity =>
             {
                 entity.HasKey(e => e.LoggerId);
@@ -146,7 +171,37 @@ namespace PyStudio.Model.Models
                 entity.Property(e => e.LoggerIps)
                     .HasMaxLength(50)
                     .IsUnicode(false);
+
+                entity.HasOne(d => d.User)
+                      .WithMany(p => p.SysLogger)
+                      .HasForeignKey(d => d.LoggerUser)
+                      .HasConstraintName("FK_SysLogger_InfoUser");
             });
+
+            #endregion
+
+            #endregion
+
+            #region SmallTools
+
+            #region InfoMessageBoard
+
+            modelBuilder.Entity<InfoMessageBoard>(entity =>
+            {
+                entity.HasKey(e => e.MessageBoardId);
+
+                entity.Property(e => e.MessageBoardUser).HasMaxLength(100);
+
+                entity.Property(e => e.MessageBoardIp).HasMaxLength(50).IsUnicode(false);
+
+                entity.Property(e => e.MessageBoardCreateTime).HasColumnType("datetime");
+
+                entity.Property(e => e.MessageBoardContent).HasColumnType("ntext");
+            });
+
+            #endregion
+
+            #endregion
         }
     }
 }

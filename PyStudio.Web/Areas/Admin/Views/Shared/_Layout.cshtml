@@ -55,6 +55,20 @@
 <script src="~/assets/js/layer/layer.js"></script>
 <script src="~/js/extension.js"></script>
 <script src="~/js/site.js"></script>
-
+<script type="text/javascript">
+    var href = window.location.pathname;
+    $(function () {
+        $(".level1").removeClass("active opened expanded");
+        $("#main-menu .active").removeClass("active");
+        if (href != "/Admin") {
+            $("#main-menu a").each(function (i, item) {
+                if ($(item).attr("href").indexOf(href) != -1) {
+                    $(item).parents(".level1").addClass("active opened");
+                    $(item).parents("li").addClass("active");
+                }
+            })
+        }
+    });
+</script>
 @RenderSection("FootScripts", required: false)
 

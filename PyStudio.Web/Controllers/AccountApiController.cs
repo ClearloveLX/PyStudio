@@ -88,7 +88,7 @@ namespace PyStudio.Web.Controllers
                     #region 操作日志记录
                     _context.SysLogger.Add(new SysLogger
                     {
-                        LoggerUserId = _pyUserInfo.UserId,
+                        LoggerUser = _pyUserInfo.UserId,
                         LoggerDescription = $"用户{_pyUserInfo.UserName} {EmLogStatus.注册} ",
                         LoggerOperation = (int)EmLogStatus.注册,
                         LoggerCreateTime = DateTime.Now,
@@ -97,7 +97,7 @@ namespace PyStudio.Web.Controllers
 
                     _context.SysLogger.Add(new SysLogger
                     {
-                        LoggerUserId = _pyUserInfo.UserId,
+                        LoggerUser = _pyUserInfo.UserId,
                         LoggerDescription = $"用户{_pyUserInfo.UserName} {EmLogStatus.登录} ",
                         LoggerOperation = (int)EmLogStatus.登录,
                         LoggerCreateTime = DateTime.Now,
@@ -176,7 +176,7 @@ namespace PyStudio.Web.Controllers
 
                 _context.SysLogger.Add(new SysLogger
                 {
-                    LoggerUserId = _pyUserInfo.UserId,
+                    LoggerUser = _pyUserInfo.UserId,
                     LoggerDescription = $"用户{_pyUserInfo.UserName}{EmLogStatus.登录} ",
                     LoggerOperation = (int)EmLogStatus.登录,
                     LoggerCreateTime = DateTime.Now,
