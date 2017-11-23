@@ -4,7 +4,9 @@
     ViewData["Title"] = "后台登录";
     Layout = "~/Areas/Admin/Views/Shared/_SpecialLayout.cshtml";
 }
-
+@section Style{
+    <link href="~/lib/nprogress/nprogress.css" rel="stylesheet" />
+}
 
 <body class="page-body login-page login-light">
     <div class="login-container">
@@ -51,26 +53,42 @@
 </body>
 
 @section FootScripts{
+    <script src="~/lib/nprogress/nprogress.js"></script>
     <script type="text/javascript">
+
+        NProgress.configure({ ease: 'ease', speed: 400 });
+        NProgress.configure({ minimum: 0.4 });
+        NProgress.configure({ trickleRate: 0.13, trickleSpeed: 500 });
+
         $("#SiginIn").on('click', function () {
+            $("#SiginIn").addClass("disabled");
+            NProgress.start();
             $.ajax({
                 type: "POST",
                 url: "/api/AccountApi/Login",
                 data: $("form[id='login']").serialize(),
                 success: function (data) {
-                    console.log(data);
                     if (data.isOK == 0) {
                         openMsg(data.msg, false);
+                        NProgress.done();
+                        $("#SiginIn").removeClass("disabled");
                     } else if (data.isOK == 1) {
                         openMsg(data.msg, true);
+                        NProgress.done();
                     } else if (data.isOK == 2) {
                         openMsg(data.msg, false, 0);
+                        NProgress.done();
+                        $("#SiginIn").removeClass("disabled");
                     } else {
                         openMsg("内部错误，请稍后...", false, 3);
+                        NProgress.done();
+                        $("#SiginIn").removeClass("disabled");
                     }
                 },
                 error: function () {
                     openMsg("内部错误，请稍后...", false, 3);
+                    NProgress.done();
+                    $("#SiginIn").removeClass("disabled");
                 }
             });
         });

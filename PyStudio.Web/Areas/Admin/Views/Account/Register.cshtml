@@ -4,7 +4,9 @@
     ViewData["Title"] = "用户注册";
     Layout = "~/Areas/Admin/Views/Shared/_SpecialLayout.cshtml";
 }
-
+@section Style{
+    <link href="~/lib/nprogress/nprogress.css" rel="stylesheet" />
+}
 <body class="page-body login-page login-light">
     <div class="login-container">
         <div class="row">
@@ -56,9 +58,16 @@
     </div>
 </body>
 @section FootScripts{
+    <script src="~/lib/nprogress/nprogress.js"></script>
     <script type="text/javascript">
+
+        NProgress.configure({ ease: 'ease', speed: 400 });
+        NProgress.configure({ minimum: 0.4 });
+        NProgress.configure({ trickleRate: 0.13, trickleSpeed: 500 });
+
         $("#SiginUp").on('click', function () {
-            console.log($("form[id='register']").serialize());
+            $("#SiginUp").addClass("disabled");
+            NProgress.start();
             $.ajax({
                 type: "POST",
                 url: "/api/AccountApi/Register",
@@ -66,17 +75,26 @@
                 success: function (data) {
                     if (data.isOK == 0) {
                         openMsg(data.msg, false);
+                        NProgress.done();
+                        $("#SiginUp").removeClass("disabled");
                     } else if (data.isOK == 1) {
                         openMsg(data.msg, false, 1);
+                        NProgress.done();
                         location.href = "/Admin/Home/Index";
                     } else if (data.isOK == 2) {
                         openMsg(data.msg, false, 0);
+                        NProgress.done();
+                        $("#SiginUp").removeClass("disabled");
                     } else {
                         openMsg("内部错误，请稍后...", false, 3);
+                        NProgress.done();
+                        $("#SiginUp").removeClass("disabled");
                     }
                 },
                 error: function () {
                     openMsg("内部错误，请稍后...", false, 3);
+                    NProgress.done();
+                    $("#SiginUp").removeClass("disabled");
                 }
             });
         });

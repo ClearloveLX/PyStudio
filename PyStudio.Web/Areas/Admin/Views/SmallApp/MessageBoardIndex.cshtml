@@ -171,10 +171,8 @@
                 $.ajax({
                     url: "/Admin/SmallApp/GetMessageBoardData",
                     data: { "page": cont * index },
-                    complete: function () {
-                        NProgress.done();
-                    },
                     success: function (data) {
+                        NProgress.done();
                         var tempHTML = "";
                         for (var i = 0; i < data.length; i++) {
                             tempHTML += '<div class="blockContent">\
@@ -189,6 +187,10 @@
                         if (data.length < 30) {
                             $(".button").remove();
                         }
+                    },
+                    error: function () {
+                        NProgress.done();
+                        $(".button").text("加载失败!请重试...");
                     }
                 });
             }, 700);
