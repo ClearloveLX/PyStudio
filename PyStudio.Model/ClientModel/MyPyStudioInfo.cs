@@ -10,20 +10,9 @@ namespace PyStudio.Model.ClientModel
     public class PySelfSetting
     {
         /// <summary>
-        /// 头像图片保存地址 
-        /// </summary>
-        public string UpHeadPhotoPath { get; set; }
-
-        /// <summary>
         /// 头像图片访问地址 
         /// </summary>
         public string HeadPhotoPath { get; set; }
-
-        /// <summary>
-        /// 内容图片保存地址 
-        /// </summary>
-        public string UpContentPhotoPath { get; set; }
-
         /// <summary>
         /// 查看内容图片保存地址 
         /// </summary>

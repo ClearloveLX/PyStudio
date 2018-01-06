@@ -32,15 +32,13 @@ namespace PyStudio.Model.Models
                     .ValueGeneratedNever();
 
                 entity.Property(e => e.AreaCode)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                    .HasMaxLength(50);
 
                 entity.Property(e => e.AreaCoord)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                    .HasMaxLength(50);
 
                 entity.Property(e => e.AreaLevel)
-                    .HasDefaultValueSql("((0))");
+                    .HasDefaultValueSql("'0'");
 
                 entity.Property(e => e.AreaName)
                     .HasMaxLength(50);
@@ -49,16 +47,13 @@ namespace PyStudio.Model.Models
                     .HasMaxLength(150);
 
                 entity.Property(e => e.AreaPathId)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
+                    .HasMaxLength(100);
 
                 entity.Property(e => e.AreaPid)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                    .HasMaxLength(50);
 
                 entity.Property(e => e.AreaZipCode)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                    .HasMaxLength(50);
             });
 
             #endregion
@@ -71,20 +66,16 @@ namespace PyStudio.Model.Models
 
                 entity.Property(e => e.Eicol1)
                     .HasMaxLength(50)
-                    .IsUnicode(false)
                     .ValueGeneratedNever();
 
                 entity.Property(e => e.Eicol2)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                    .HasMaxLength(50);
 
                 entity.Property(e => e.Eicol3)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                    .HasMaxLength(50);
 
                 entity.Property(e => e.Eicol4)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                    .HasMaxLength(50);
             });
 
             #endregion
@@ -112,8 +103,7 @@ namespace PyStudio.Model.Models
                     .HasColumnType("datetime");
 
                 entity.Property(e => e.UserEmail)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                    .HasMaxLength(50);
 
                 entity.Property(e => e.UserHeadPhoto)
                     .HasMaxLength(50);
@@ -136,18 +126,16 @@ namespace PyStudio.Model.Models
 
                 entity.Property(e => e.UserPwd)
                     .IsRequired()
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                    .HasMaxLength(50);
 
                 entity.Property(e => e.UserSex)
-                    .HasDefaultValueSql("((2))");
+                    .HasDefaultValueSql("'2'");
 
                 entity.Property(e => e.UserStatus)
-                    .HasDefaultValueSql("((0))");
+                    .HasDefaultValueSql("'0'");
 
                 entity.Property(e => e.UserTel)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                    .HasMaxLength(50);
             });
 
             #endregion
@@ -166,11 +154,10 @@ namespace PyStudio.Model.Models
                     .HasColumnType("datetime");
 
                 entity.Property(e => e.LoggerDescription)
-                    .HasColumnType("ntext");
+                    .HasColumnType("text");
 
                 entity.Property(e => e.LoggerIps)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                    .HasMaxLength(50);
 
                 entity.HasOne(d => d.User)
                       .WithMany(p => p.SysLogger)
@@ -192,11 +179,11 @@ namespace PyStudio.Model.Models
 
                 entity.Property(e => e.MessageBoardUser).HasMaxLength(100);
 
-                entity.Property(e => e.MessageBoardIp).HasMaxLength(50).IsUnicode(false);
+                entity.Property(e => e.MessageBoardIp).HasMaxLength(50);
 
                 entity.Property(e => e.MessageBoardCreateTime).HasColumnType("datetime");
 
-                entity.Property(e => e.MessageBoardContent).HasColumnType("ntext");
+                entity.Property(e => e.MessageBoardContent).HasColumnType("text");
             });
 
             #endregion

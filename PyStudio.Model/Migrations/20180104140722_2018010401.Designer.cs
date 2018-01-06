@@ -11,15 +11,15 @@ using System;
 namespace PyStudio.Model.Migrations
 {
     [DbContext(typeof(PyStudioDBContext))]
-    [Migration("20171113130716_No1")]
-    partial class No1
+    [Migration("20180104140722_2018010401")]
+    partial class _2018010401
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.0.0-rtm-26452")
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn)
+                .HasAnnotation("ProductVersion", "2.0.1-rtm-125");
 
             modelBuilder.Entity("PyStudio.Model.Models.Account.InfoUser", b =>
                 {
@@ -39,8 +39,7 @@ namespace PyStudio.Model.Migrations
                         .HasColumnType("datetime");
 
                     b.Property<string>("UserEmail")
-                        .HasMaxLength(50)
-                        .IsUnicode(false);
+                        .HasMaxLength(50);
 
                     b.Property<string>("UserHeadPhoto")
                         .HasMaxLength(50);
@@ -63,20 +62,18 @@ namespace PyStudio.Model.Migrations
 
                     b.Property<string>("UserPwd")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .IsUnicode(false);
+                        .HasMaxLength(50);
 
                     b.Property<int>("UserSex")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("((2))");
+                        .HasDefaultValueSql("'2'");
 
                     b.Property<int>("UserStatus")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("((0))");
+                        .HasDefaultValueSql("'0'");
 
                     b.Property<string>("UserTel")
-                        .HasMaxLength(50)
-                        .IsUnicode(false);
+                        .HasMaxLength(50);
 
                     b.HasKey("UserId");
 
@@ -88,16 +85,14 @@ namespace PyStudio.Model.Migrations
                     b.Property<int>("AreaId");
 
                     b.Property<string>("AreaCode")
-                        .HasMaxLength(50)
-                        .IsUnicode(false);
+                        .HasMaxLength(50);
 
                     b.Property<string>("AreaCoord")
-                        .HasMaxLength(50)
-                        .IsUnicode(false);
+                        .HasMaxLength(50);
 
                     b.Property<int>("AreaLevel")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("((0))");
+                        .HasDefaultValueSql("'0'");
 
                     b.Property<string>("AreaName")
                         .HasMaxLength(50);
@@ -106,16 +101,13 @@ namespace PyStudio.Model.Migrations
                         .HasMaxLength(150);
 
                     b.Property<string>("AreaPathId")
-                        .HasMaxLength(100)
-                        .IsUnicode(false);
+                        .HasMaxLength(100);
 
                     b.Property<string>("AreaPid")
-                        .HasMaxLength(50)
-                        .IsUnicode(false);
+                        .HasMaxLength(50);
 
                     b.Property<string>("AreaZipCode")
-                        .HasMaxLength(50)
-                        .IsUnicode(false);
+                        .HasMaxLength(50);
 
                     b.HasKey("AreaId");
 
@@ -125,24 +117,42 @@ namespace PyStudio.Model.Migrations
             modelBuilder.Entity("PyStudio.Model.Models.BaseInfo.InfoEi", b =>
                 {
                     b.Property<string>("Eicol1")
-                        .HasMaxLength(50)
-                        .IsUnicode(false);
+                        .HasMaxLength(50);
 
                     b.Property<string>("Eicol2")
-                        .HasMaxLength(50)
-                        .IsUnicode(false);
+                        .HasMaxLength(50);
 
                     b.Property<string>("Eicol3")
-                        .HasMaxLength(50)
-                        .IsUnicode(false);
+                        .HasMaxLength(50);
 
                     b.Property<string>("Eicol4")
-                        .HasMaxLength(50)
-                        .IsUnicode(false);
+                        .HasMaxLength(50);
 
                     b.HasKey("Eicol1");
 
                     b.ToTable("InfoEi");
+                });
+
+            modelBuilder.Entity("PyStudio.Model.Models.SmallApp.InfoMessageBoard", b =>
+                {
+                    b.Property<int>("MessageBoardId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("MessageBoardContent")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("MessageBoardCreateTime")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("MessageBoardIp")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("MessageBoardUser")
+                        .HasMaxLength(100);
+
+                    b.HasKey("MessageBoardId");
+
+                    b.ToTable("InfoMessageBoard");
                 });
 
             modelBuilder.Entity("PyStudio.Model.Models.Sys.SysLogger", b =>
@@ -154,19 +164,28 @@ namespace PyStudio.Model.Migrations
                         .HasColumnType("datetime");
 
                     b.Property<string>("LoggerDescription")
-                        .HasColumnType("ntext");
+                        .HasColumnType("text");
 
                     b.Property<string>("LoggerIps")
-                        .HasMaxLength(50)
-                        .IsUnicode(false);
+                        .HasMaxLength(50);
 
                     b.Property<int?>("LoggerOperation");
 
-                    b.Property<int?>("LoggerUserId");
+                    b.Property<int?>("LoggerUser");
 
                     b.HasKey("LoggerId");
 
+                    b.HasIndex("LoggerUser");
+
                     b.ToTable("SysLogger");
+                });
+
+            modelBuilder.Entity("PyStudio.Model.Models.Sys.SysLogger", b =>
+                {
+                    b.HasOne("PyStudio.Model.Models.Account.InfoUser", "User")
+                        .WithMany("SysLogger")
+                        .HasForeignKey("LoggerUser")
+                        .HasConstraintName("FK_SysLogger_InfoUser");
                 });
 #pragma warning restore 612, 618
         }

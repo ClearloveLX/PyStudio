@@ -64,7 +64,7 @@
                 <a>小程序</a>
             </li>
             <li class="active">
-                <strong>留言板功能</strong>
+                <strong>留言板</strong>
             </li>
         </ol>
     </div>
@@ -169,9 +169,10 @@
             NProgress.start();
             setTimeout(function () {
                 $.ajax({
-                    url: "/Admin/SmallApp/GetMessageBoardData",
+                    url: "/Admin/SmallApp/GetData",
                     data: { "page": cont * index },
                     success: function (data) {
+                        console.log(data);
                         NProgress.done();
                         var tempHTML = "";
                         for (var i = 0; i < data.length; i++) {

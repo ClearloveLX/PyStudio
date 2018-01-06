@@ -11,6 +11,7 @@ using PyStudio.Model.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PyStudio.Model.ClientModel;
+using PyStudio.Web.Extends;
 
 namespace PyStudio.Web
 {
@@ -44,7 +45,7 @@ namespace PyStudio.Web
                 {
                     throw new Exception("未找到数据库链接！");
                 }
-                b.UseSqlServer(dbLink);
+                b.UseMySql(dbLink);
             });
 
             //MemoryCaChe支持
@@ -90,6 +91,7 @@ namespace PyStudio.Web
                    name: "default",
                    template: "{controller=Home}/{action=Index}/{id?}");
             });
+            app.Map("/ws", SocketHandler.Map);
         }
     }
 }

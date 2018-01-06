@@ -52,7 +52,6 @@ namespace PyStudio.Web.Areas.Admin.Controllers
         {
             string key = "_GetAreaInfo";
             List<InfoArea> objModel = new List<InfoArea>();
-
             if (!_cache.TryGetValue(key, out objModel))//缓存三十秒，防止频繁刷新
             {
                 objModel = _repository.GetList(orderBy: s => s.OrderBy(c => c.AreaCode)).ToList();

@@ -1,0 +1,98 @@
+@model PyStudio.Model.ClientModel.AreaInfo
+
+@{
+    ViewData["Title"] = "地区修改";
+}
+
+<body class="lx-body-white">
+    <div class="col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form method="post" name="form_submit" class="validate">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label class="control-label" asp-for="UpAreaName">所属类别</label>
+                                <input type="text" readonly class="form-control" asp-for="UpAreaName" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label" asp-for="AreaCode">地区编号</label>
+                                <input type="text" readonly class="form-control" asp-for="AreaCode" />
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group lx-validate">
+                                <label class="control-label" asp-for="AreaName">地区名称</label>
+                                <input type="text" class="form-control" asp-for="AreaName" data-validate="required" data-message-required="地区名称不能为空！" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label" asp-for="AreaZipCode">邮政编码</label>
+                                <input type="text" class="form-control" asp-for="AreaZipCode" />
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group lx-validate">
+                                <label class="control-label" asp-for="AreaCoord">经纬度</label>
+                                <input type="text" class="form-control" asp-for="AreaCoord" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group lx-validate">
+                                <label class="control-label" asp-for="AreaCoord">备 注</label>
+                                <textarea class="form-control autogrow" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 50px;" asp-for="AreaNote"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" asp-for="AreaId" />
+                    <input type="hidden" asp-for="UpAreaPathId" />
+                    <input type="hidden" asp-for="AreaPathId" />
+                    <div class="divpadding"></div>
+                    <div class="fixedSave">
+                        <div class="text-left">
+                            <button id="ModifySave" type="button" class="btn btn-info btn-icon btn-icon-standalone">
+                                <i class="fa-save"></i>
+                                <span>修 改</span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+@section FootScripts{
+    <script type="text/javascript">
+        $(function () {
+            $("form[name='form_submit']").validate({
+                onsubmit: true,//是否提交时验证
+                onfocusout: false,
+                onkeyup: false,
+                rules: {
+                    AreaName: {
+                        required: true
+                    }
+                },
+                messages: {
+                    AreaName: {
+                        required: "请输入用户名"
+                    }
+                },
+                submitHandler: function (form) {
+                    alert(121);
+                },
+                invalidHandler: function (form, validator) { return false; }
+            })
+        })
+    </script>
+    
+}

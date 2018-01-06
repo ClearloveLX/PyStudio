@@ -27,5 +27,26 @@ namespace PyStudio.Common.Helper
         {
             禁用 = 0, 启用 = 1
         }
+
+        /// <summary>
+        /// 邮件模板
+        /// </summary>
+        public enum EmEmailTpl
+        {
+            /// <summary>
+            /// 消息通知
+            /// </summary>
+            MsgBox = 1,
+
+            /// <summary>
+            /// 绑定邮箱
+            /// </summary>
+            SettingEmail = 2,
+
+            /// <summary>
+            /// 绑定手机
+            /// </summary>
+            SettingTel = 3
+        }
     }
 }

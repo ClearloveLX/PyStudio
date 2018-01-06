@@ -1,3 +1,5 @@
+using PyStudio.Model.Models;
+using PyStudio.Model.Models.Sys;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -5,6 +7,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace PyStudio.Model.Repositories
 {
@@ -13,6 +16,13 @@ namespace PyStudio.Model.Repositories
     /// </summary>
     public class PySqlHelper
     {
+        private readonly PyStudioDBContext _context;
+
+        public PySqlHelper(PyStudioDBContext context)
+        {
+            _context = context;
+        }
+
         /// <summary>
         /// 批量插入数据
         /// </summary>
@@ -52,6 +62,40 @@ namespace PyStudio.Model.Repositories
 
                 bulkCopy.WriteToServer(table);
             }
+        }
+
+        /// <summary>
+        /// 录入日志信息
+        /// </summary>
+        /// <param name="userId">用户ID</param>
+        /// <param name="info">信息</param>
+        /// <param name="operation">操作</param>
+        /// <param name="ips">操作IP</param>
+        /// <returns></returns>
+        public async Task<bool> SaveLogInfo(int userId, string info, int operation, string ips)
+        {
+            var result = false;
+            _context.Add(new SysLogger
+            {
+                LoggerUser = userId,
+                LoggerDescription = info,
+                LoggerOperation = operation,
+                LoggerCreateTime = DateTime.Now,
+                LoggerIps = ips
+            });
+
+            var save = await _context.SaveChangesAsync();
+
+            if (save > 0)
+            {
+                result = true;
+            }
+            else
+            {
+                result = false;
+            }
+
+            return result;
         }
     }
 }

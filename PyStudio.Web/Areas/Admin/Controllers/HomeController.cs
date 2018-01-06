@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using PyStudio.Web.Models;
 using System.Diagnostics;
+using PyStudio.Web.Extends;
 
 namespace PyStudio.Web.Areas.Admin.Controllers
 {
@@ -30,9 +31,15 @@ namespace PyStudio.Web.Areas.Admin.Controllers
             return View();
         }
 
-        public IActionResult Error()
+        public IActionResult Error(string msg = null)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            this.MsgBox(msg ?? "访问出问题了，开发人员正从火星赶回来修复，请耐心等待！");
+            return View();
+        }
+
+        public IActionResult Test()
+        {
+            return View();
         }
     }
 }

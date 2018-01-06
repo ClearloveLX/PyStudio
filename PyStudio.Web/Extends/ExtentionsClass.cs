@@ -1,12 +1,16 @@
+using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MimeKit;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using static PyStudio.Common.Helper.EnumHelper;
 
 namespace PyStudio.Web.Extends
 {
@@ -295,6 +299,101 @@ namespace PyStudio.Web.Extends
             // Return the hexadecimal string.
             return sBuilder.ToString().ToUpper();
         }
+        #endregion
+
+        #region 邮箱相关
+
+        /// <summary>
+        /// 读取HTML模版
+        /// </summary>
+        /// <param name="tpl"></param>
+        /// <param name="folderPath"></param>
+        /// <returns></returns>
+        public static async Task<string> _GetHtmlTpl(EmEmailTpl tpl, string folderPath)
+        {
+            var content = string.Empty;
+            if (string.IsNullOrWhiteSpace(folderPath))
+            {
+                return content;
+            }
+            var path = $"{folderPath}/{tpl}.html";
+            try
+            {
+                using (var stream = File.OpenRead(path))
+                {
+                    using (var reader = new StreamReader(stream))
+                    {
+                        content = await reader.ReadToEndAsync();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return content;
+        }
+
+        /// <summary>
+        /// 发送邮件
+        /// </summary>
+        /// <param name="dicToEmail">收件人and内容</param>
+        /// <param name="title">邮件标题</param>
+        /// <param name="content">内容</param>
+        /// <param name="name">发件人</param>
+        /// <param name="fromEmail">来自邮箱</param>
+        /// <returns></returns>
+        public static bool _SendEmail(
+            Dictionary<string, string> dicToEmail,
+            string title, string content,
+            string name = "PyStudio交易网", string fromEmail = "gk1213656215@qq.com")
+        {
+            var isOk = false;
+            try
+            {
+                if (string.IsNullOrWhiteSpace(title) || string.IsNullOrWhiteSpace(content)) { return isOk; }
+
+                //设置基本信息
+                var message = new MimeMessage();
+                message.From.Add(new MailboxAddress(name, fromEmail));
+                foreach (var item in dicToEmail.Keys)
+                {
+                    message.To.Add(new MailboxAddress(item, dicToEmail[item]));
+                }
+                message.Subject = title;
+                message.Body = new TextPart("html")
+                {
+                    Text = content
+                };
+
+                //链接发送
+                using (var client = new SmtpClient())
+                {
+                    // For demo-purposes, accept all SSL certificates (in case the server supports STARTTLS)
+                    client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+
+                    //采用qq邮箱服务器发送邮件
+                    client.Connect("smtp.qq.com", 587, false);
+
+                    // Note: since we don't have an OAuth2 token, disable
+                    // the XOAUTH2 authentication mechanism.
+                    client.AuthenticationMechanisms.Remove("XOAUTH2");
+
+                    //qq邮箱，密码(安全设置短信获取后的密码)
+                    client.Authenticate("gk1213656215@qq.com", "yppnyvzoiyjdhfif");
+
+                    client.Send(message);
+                    client.Disconnect(true);
+                }
+                isOk = true;
+            }
+            catch (Exception)
+            {
+
+            }
+            return isOk;
+        }
+
         #endregion
     }
 }

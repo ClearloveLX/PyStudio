@@ -1,3 +1,4 @@
+using PyStudio.Model.Models.Sys;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -90,6 +91,8 @@ namespace PyStudio.Model.Repositories
         /// <param name="id"></param>
         /// <returns></returns>
         Task<int> DeleteAsync(object id);
+
+        Task<bool> SaveLogInfoAsync(int userId, string info, int operation, string ips);
 
         ///// <summary>
         ///// 批量删除

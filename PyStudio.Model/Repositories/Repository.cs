@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using PyStudio.Model.Models;
+using PyStudio.Model.Models.Sys;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -132,6 +133,31 @@ namespace PyStudio.Model.Repositories
             }
             _Entities.Remove(entityToDelete);
             return await _context.SaveChangesAsync();
+        }
+
+        public async Task<bool> SaveLogInfoAsync(int userId, string info, int operation, string ips) {
+            var result = false;
+            _context.Add(new SysLogger
+            {
+                LoggerUser = userId,
+                LoggerDescription = info,
+                LoggerOperation = operation,
+                LoggerCreateTime = DateTime.Now,
+                LoggerIps = ips
+            });
+
+            var save = await _context.SaveChangesAsync();
+
+            if (save > 0)
+            {
+                result = true;
+            }
+            else
+            {
+                result = false;
+            }
+
+            return result;
         }
 
         private bool disposed = false;

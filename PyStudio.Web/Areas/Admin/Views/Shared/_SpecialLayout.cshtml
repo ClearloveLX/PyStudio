@@ -4,7 +4,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>PyStudio - @(ViewData["Title"] ?? "您身边的交易专家")</title>
+    <title>@(ViewData["Title"] ?? "您身边的交易专家") - PyStudio</title>
 
     <link rel="stylesheet" href="~/assets/css/fonts/linecons/css/linecons.css">
     <link rel="stylesheet" href="~/assets/css/fonts/fontawesome/css/font-awesome.min.css">
@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="~/assets/css/custom.css">
     @RenderSection("Style", required: false)
     <script src="~/assets/js/jquery-1.11.1.min.js"></script>
-    @RenderSection("TopScript", required: false)
+    @RenderSection("TopScripts", required: false)
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
