@@ -128,13 +128,12 @@ namespace PyStudio.Web.Controllers
         /// <param name="loginUser"></param>
         /// <returns></returns>
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<JsonResult> Login([Bind("UserName,UserPwd,ReturnUrl")] PyLoginUser loginUser)
         {
             var data = new PyStudioPromptData();
 
-            if (ModelState.IsValid)
-            {
+            //if (ModelState.IsValid)
+            //{
                 var md5Pwd = loginUser.UserPwd.Trim()._Md5();
                 var userInfo = await _context.InfoUser.SingleOrDefaultAsync(b => b.UserName.Equals(loginUser.UserName, StringComparison.CurrentCultureIgnoreCase) && b.UserPwd.Equals(md5Pwd));
 
@@ -187,12 +186,12 @@ namespace PyStudio.Web.Controllers
 
                 data.IsOK = 1;
                 data.Msg = "登录成功";
-            }
-            else
-            {
-                data.IsOK = 0;
-                data.Msg = "登录失败！";
-            }
+            //}
+            //else
+            //{
+            //    data.IsOK = 0;
+            //    data.Msg = "登录失败！";
+            //}
             return Json(data);
         }
 
@@ -222,7 +221,14 @@ namespace PyStudio.Web.Controllers
             return Json(data);
         }
 
-
+        public PyStudioPromptData PyStudioPromptDatas()
+        {
+            var data = new PyStudioPromptData();
+            data.Data = new { Id = 1, Name = "LX" };
+            data.IsOK = 1;
+            data.Msg = "OK";
+            return data;
+        }
 
         #endregion
     }

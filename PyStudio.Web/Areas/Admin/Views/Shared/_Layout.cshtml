@@ -60,7 +60,7 @@
     $(function () {
         $(".level1").removeClass("active opened expanded");
         $("#main-menu .active").removeClass("active");
-        if (href != "/Admin") {
+        if (href != "/Admin" && href != "/Admin/") {
             $("#main-menu a").each(function (i, item) {
                 if ($(item).attr("href").indexOf(href) != -1) {
                     $(item).parents(".level1").addClass("active opened");

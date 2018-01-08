@@ -28,7 +28,7 @@ namespace PyStudio.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> MessageBoardIndex()
         {
-            ViewBag.Messages = await GetMessageBoardData<InfoMessageBoard>();
+            ViewBag.Messages = await GetMessageBoardData<InfoMessageBoard>(orderBy: e => e.OrderByDescending(r => r.MessageBoardCreateTime));
             return View();
         }
 
